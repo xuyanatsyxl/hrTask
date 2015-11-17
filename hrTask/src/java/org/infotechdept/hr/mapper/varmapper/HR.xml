@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="HR" >
+    <!-- 查询HR系统中每日变化数据 -->
+	<select id="queryTbPerStafferrcordForTrans" parameterType="HashMap" resultType="HashMap">
+		select TO_CHAR(C_RECORDTIME, 'yyyy-mm-dd') as C_RECORDTIME, C_EMPOID, C_RECORDTYPE, C_OLDEMPSTATUS, C_OLDUNITNAME, C_NEWUNITNAME, C_OLDJOBNAME, C_NEWJOBNAME,
+      		   C_OLDDYZBZW, C_NEWDYZBZW, C_REASON
+  		  from tb_per_staffrecord 
+  		 <where>
+  		     <if test="date != null">
+ 				and TO_CHAR(C_OPERATETIME, 'yyyy-mm-dd') = #{date, jdbcType=VARCHAR}  		         
+  		     </if>
+  		 </where>   
+	</select>
+</mapper>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.AdcShiftSchedulingMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftScheduling" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SCH_DATE" property="schDate" jdbcType="DATE" />
+    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+    <result column="EMPID" property="empid" jdbcType="BIGINT" />
+    <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="REC_ID" property="recId" jdbcType="BIGINT" />
+    <result column="WORK_TIME" property="workTime" jdbcType="TIMESTAMP" />
+    <result column="ACTUAL_WORK_TIME" property="actualWorkTime" jdbcType="TIMESTAMP" />
+    <result column="OFF_TIME" property="offTime" jdbcType="TIMESTAMP" />
+    <result column="ACTUAL_OFF_TIME" property="actualOffTime" jdbcType="TIMESTAMP" />
+    <result column="ADC_ID" property="adcId" jdbcType="VARCHAR" />
+    <result column="RECORD_TYPE" property="recordType" jdbcType="VARCHAR" />
+    <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="DOUBLE" />
+    <result column="SHIFT_SYMBOL" property="shiftSymbol" jdbcType="VARCHAR" />
+    <result column="TM" property="tm" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SCH_DATE, DEPTID, GROUP_ID, EMPID, SHIFT_ID, REC_ID, WORK_TIME, ACTUAL_WORK_TIME, 
+    OFF_TIME, ACTUAL_OFF_TIME, ADC_ID, RECORD_TYPE, PRIORITY, COUNT, SHIFT_SYMBOL, TM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.AdcShiftSchedulingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adc_shift_scheduling
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from adc_shift_scheduling
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from adc_shift_scheduling
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftSchedulingExample" >
+    delete from adc_shift_scheduling
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcShiftScheduling" >
+    insert into adc_shift_scheduling (ID, SCH_DATE, DEPTID, 
+      GROUP_ID, EMPID, SHIFT_ID, 
+      REC_ID, WORK_TIME, ACTUAL_WORK_TIME, 
+      OFF_TIME, ACTUAL_OFF_TIME, ADC_ID, 
+      RECORD_TYPE, PRIORITY, COUNT, 
+      SHIFT_SYMBOL, TM)
+    values (#{id,jdbcType=BIGINT}, #{schDate,jdbcType=DATE}, #{deptid,jdbcType=VARCHAR}, 
+      #{groupId,jdbcType=VARCHAR}, #{empid,jdbcType=BIGINT}, #{shiftId,jdbcType=VARCHAR}, 
+      #{recId,jdbcType=BIGINT}, #{workTime,jdbcType=TIMESTAMP}, #{actualWorkTime,jdbcType=TIMESTAMP}, 
+      #{offTime,jdbcType=TIMESTAMP}, #{actualOffTime,jdbcType=TIMESTAMP}, #{adcId,jdbcType=VARCHAR}, 
+      #{recordType,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{count,jdbcType=DOUBLE}, 
+      #{shiftSymbol,jdbcType=VARCHAR}, #{tm,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcShiftScheduling" >
+    insert into adc_shift_scheduling
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="schDate != null" >
+        SCH_DATE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="empid != null" >
+        EMPID,
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID,
+      </if>
+      <if test="recId != null" >
+        REC_ID,
+      </if>
+      <if test="workTime != null" >
+        WORK_TIME,
+      </if>
+      <if test="actualWorkTime != null" >
+        ACTUAL_WORK_TIME,
+      </if>
+      <if test="offTime != null" >
+        OFF_TIME,
+      </if>
+      <if test="actualOffTime != null" >
+        ACTUAL_OFF_TIME,
+      </if>
+      <if test="adcId != null" >
+        ADC_ID,
+      </if>
+      <if test="recordType != null" >
+        RECORD_TYPE,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="shiftSymbol != null" >
+        SHIFT_SYMBOL,
+      </if>
+      <if test="tm != null" >
+        TM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="schDate != null" >
+        #{schDate,jdbcType=DATE},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null" >
+        #{empid,jdbcType=BIGINT},
+      </if>
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="recId != null" >
+        #{recId,jdbcType=BIGINT},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualWorkTime != null" >
+        #{actualWorkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offTime != null" >
+        #{offTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualOffTime != null" >
+        #{actualOffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adcId != null" >
+        #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null" >
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DOUBLE},
+      </if>
+      <if test="shiftSymbol != null" >
+        #{shiftSymbol,jdbcType=VARCHAR},
+      </if>
+      <if test="tm != null" >
+        #{tm,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftSchedulingExample" resultType="java.lang.Integer" >
+    select count(*) from adc_shift_scheduling
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update adc_shift_scheduling
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.schDate != null" >
+        SCH_DATE = #{record.schDate,jdbcType=DATE},
+      </if>
+      <if test="record.deptid != null" >
+        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null" >
+        GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empid != null" >
+        EMPID = #{record.empid,jdbcType=BIGINT},
+      </if>
+      <if test="record.shiftId != null" >
+        SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recId != null" >
+        REC_ID = #{record.recId,jdbcType=BIGINT},
+      </if>
+      <if test="record.workTime != null" >
+        WORK_TIME = #{record.workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.actualWorkTime != null" >
+        ACTUAL_WORK_TIME = #{record.actualWorkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.offTime != null" >
+        OFF_TIME = #{record.offTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.actualOffTime != null" >
+        ACTUAL_OFF_TIME = #{record.actualOffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adcId != null" >
+        ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordType != null" >
+        RECORD_TYPE = #{record.recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=DOUBLE},
+      </if>
+      <if test="record.shiftSymbol != null" >
+        SHIFT_SYMBOL = #{record.shiftSymbol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tm != null" >
+        TM = #{record.tm,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update adc_shift_scheduling
+    set ID = #{record.id,jdbcType=BIGINT},
+      SCH_DATE = #{record.schDate,jdbcType=DATE},
+      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      EMPID = #{record.empid,jdbcType=BIGINT},
+      SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      REC_ID = #{record.recId,jdbcType=BIGINT},
+      WORK_TIME = #{record.workTime,jdbcType=TIMESTAMP},
+      ACTUAL_WORK_TIME = #{record.actualWorkTime,jdbcType=TIMESTAMP},
+      OFF_TIME = #{record.offTime,jdbcType=TIMESTAMP},
+      ACTUAL_OFF_TIME = #{record.actualOffTime,jdbcType=TIMESTAMP},
+      ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      RECORD_TYPE = #{record.recordType,jdbcType=VARCHAR},
+      PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      COUNT = #{record.count,jdbcType=DOUBLE},
+      SHIFT_SYMBOL = #{record.shiftSymbol,jdbcType=VARCHAR},
+      TM = #{record.tm,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.AdcShiftScheduling" >
+    update adc_shift_scheduling
+    <set >
+      <if test="schDate != null" >
+        SCH_DATE = #{schDate,jdbcType=DATE},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null" >
+        EMPID = #{empid,jdbcType=BIGINT},
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="recId != null" >
+        REC_ID = #{recId,jdbcType=BIGINT},
+      </if>
+      <if test="workTime != null" >
+        WORK_TIME = #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualWorkTime != null" >
+        ACTUAL_WORK_TIME = #{actualWorkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offTime != null" >
+        OFF_TIME = #{offTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualOffTime != null" >
+        ACTUAL_OFF_TIME = #{actualOffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adcId != null" >
+        ADC_ID = #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null" >
+        RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=DOUBLE},
+      </if>
+      <if test="shiftSymbol != null" >
+        SHIFT_SYMBOL = #{shiftSymbol,jdbcType=VARCHAR},
+      </if>
+      <if test="tm != null" >
+        TM = #{tm,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftScheduling" >
+    update adc_shift_scheduling
+    set SCH_DATE = #{schDate,jdbcType=DATE},
+      DEPTID = #{deptid,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      EMPID = #{empid,jdbcType=BIGINT},
+      SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      REC_ID = #{recId,jdbcType=BIGINT},
+      WORK_TIME = #{workTime,jdbcType=TIMESTAMP},
+      ACTUAL_WORK_TIME = #{actualWorkTime,jdbcType=TIMESTAMP},
+      OFF_TIME = #{offTime,jdbcType=TIMESTAMP},
+      ACTUAL_OFF_TIME = #{actualOffTime,jdbcType=TIMESTAMP},
+      ADC_ID = #{adcId,jdbcType=VARCHAR},
+      RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=VARCHAR},
+      COUNT = #{count,jdbcType=DOUBLE},
+      SHIFT_SYMBOL = #{shiftSymbol,jdbcType=VARCHAR},
+      TM = #{tm,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

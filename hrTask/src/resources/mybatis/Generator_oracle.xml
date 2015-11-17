@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry location="../../../WebContent/WEB-INF/lib/ojdbc6.jar" />
+
+
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@10.0.2.223:1521:orcl" userId="tb42"
+			password="tb42">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 实体类声明的位置 -->
+		<javaModelGenerator targetPackage="org.infotechdept.hr.task.model"
+			targetProject="../../../src">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- Mapper文件生成的位置 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="../../">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- DAO接口生成的位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="org.infotechdept.hr.task.dao" targetProject="../../../src">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+  <!--  
+		<table tableName="adc_attend_type" />
+		<table tableName="adc_shift_basic" />
+		<table tableName="adc_holiday" />
+		<table tableName="adc_holiday_detail" />
+
+		<table tableName="adc_shift_apply" />
+		<table tableName="adc_shift_record" />
+		<table tableName="adc_shift_pattern" />
+		<table tableName="adc_shift_pattern_detail" />
+		<table tableName="adc_shift_group" />
+		<table tableName="adc_shift_group_empl" />
+
+		<table tableName="adc_shift_upload" />
+		<table tableName="adc_shift_leave" />	
+		<table tableName="employee" />
+		<table tableName="deptempl" />
+		<table tableName="oa_intf" />
+		<table tableName="adc_shift_exception"/>	
+		<table tableName="adc_shift_meals"/>
+		<table tableName="adc_dinner_room"/>
+		<table tableName="adc_dinner_room_unit"/>
+		<table tableName="adc_dinner_room_dkj"/>
+		<table tableName="adc_shift_scheduling" />
+				-->
+		<table tableName="adc_shift_record_logs" />
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.AdcShiftRecordMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftRecord" >
+    <id column="REC_ID" property="recId" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="BIGINT" />
+    <result column="INIT_DATE" property="initDate" jdbcType="DATE" />
+    <result column="INIT_POSITION" property="initPosition" jdbcType="INTEGER" />
+    <result column="HOLIABLE" property="holiable" jdbcType="VARCHAR" />
+    <result column="VALID_START_DATE" property="validStartDate" jdbcType="TIMESTAMP" />
+    <result column="REC_STATE" property="recState" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    REC_ID, APPLY_ID, INIT_DATE, INIT_POSITION, HOLIABLE, VALID_START_DATE, REC_STATE, 
+    OPERATOR, OPERATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.AdcShiftRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adc_shift_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from adc_shift_record
+    where REC_ID = #{recId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from adc_shift_record
+    where REC_ID = #{recId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftRecordExample" >
+    delete from adc_shift_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcShiftRecord" >
+    insert into adc_shift_record (REC_ID, APPLY_ID, INIT_DATE, 
+      INIT_POSITION, HOLIABLE, VALID_START_DATE, 
+      REC_STATE, OPERATOR, OPERATE_TIME
+      )
+    values (#{recId,jdbcType=BIGINT}, #{applyId,jdbcType=BIGINT}, #{initDate,jdbcType=DATE}, 
+      #{initPosition,jdbcType=INTEGER}, #{holiable,jdbcType=VARCHAR}, #{validStartDate,jdbcType=TIMESTAMP}, 
+      #{recState,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcShiftRecord" >
+    insert into adc_shift_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recId != null" >
+        REC_ID,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="initPosition != null" >
+        INIT_POSITION,
+      </if>
+      <if test="holiable != null" >
+        HOLIABLE,
+      </if>
+      <if test="validStartDate != null" >
+        VALID_START_DATE,
+      </if>
+      <if test="recState != null" >
+        REC_STATE,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recId != null" >
+        #{recId,jdbcType=BIGINT},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=BIGINT},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=DATE},
+      </if>
+      <if test="initPosition != null" >
+        #{initPosition,jdbcType=INTEGER},
+      </if>
+      <if test="holiable != null" >
+        #{holiable,jdbcType=VARCHAR},
+      </if>
+      <if test="validStartDate != null" >
+        #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recState != null" >
+        #{recState,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftRecordExample" resultType="java.lang.Integer" >
+    select count(*) from adc_shift_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update adc_shift_record
+    <set >
+      <if test="record.recId != null" >
+        REC_ID = #{record.recId,jdbcType=BIGINT},
+      </if>
+      <if test="record.applyId != null" >
+        APPLY_ID = #{record.applyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.initDate != null" >
+        INIT_DATE = #{record.initDate,jdbcType=DATE},
+      </if>
+      <if test="record.initPosition != null" >
+        INIT_POSITION = #{record.initPosition,jdbcType=INTEGER},
+      </if>
+      <if test="record.holiable != null" >
+        HOLIABLE = #{record.holiable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.validStartDate != null" >
+        VALID_START_DATE = #{record.validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recState != null" >
+        REC_STATE = #{record.recState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update adc_shift_record
+    set REC_ID = #{record.recId,jdbcType=BIGINT},
+      APPLY_ID = #{record.applyId,jdbcType=BIGINT},
+      INIT_DATE = #{record.initDate,jdbcType=DATE},
+      INIT_POSITION = #{record.initPosition,jdbcType=INTEGER},
+      HOLIABLE = #{record.holiable,jdbcType=VARCHAR},
+      VALID_START_DATE = #{record.validStartDate,jdbcType=TIMESTAMP},
+      REC_STATE = #{record.recState,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.AdcShiftRecord" >
+    update adc_shift_record
+    <set >
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=BIGINT},
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=DATE},
+      </if>
+      <if test="initPosition != null" >
+        INIT_POSITION = #{initPosition,jdbcType=INTEGER},
+      </if>
+      <if test="holiable != null" >
+        HOLIABLE = #{holiable,jdbcType=VARCHAR},
+      </if>
+      <if test="validStartDate != null" >
+        VALID_START_DATE = #{validStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recState != null" >
+        REC_STATE = #{recState,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where REC_ID = #{recId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftRecord" >
+    update adc_shift_record
+    set APPLY_ID = #{applyId,jdbcType=BIGINT},
+      INIT_DATE = #{initDate,jdbcType=DATE},
+      INIT_POSITION = #{initPosition,jdbcType=INTEGER},
+      HOLIABLE = #{holiable,jdbcType=VARCHAR},
+      VALID_START_DATE = #{validStartDate,jdbcType=TIMESTAMP},
+      REC_STATE = #{recState,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP}
+    where REC_ID = #{recId,jdbcType=BIGINT}
+  </update>
+</mapper>

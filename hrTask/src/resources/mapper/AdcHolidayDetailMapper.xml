@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.AdcHolidayDetailMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcHolidayDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="H_CODE" property="hCode" jdbcType="VARCHAR" />
+    <result column="H_DATE" property="hDate" jdbcType="DATE" />
+    <result column="STRING_DATE" property="stringDate" jdbcType="DATE" />
+    <result column="ADC_ID" property="adcId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, H_CODE, H_DATE, STRING_DATE, ADC_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adc_holiday_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from adc_holiday_detail
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from adc_holiday_detail
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetailExample" >
+    delete from adc_holiday_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetail" >
+    insert into adc_holiday_detail (ID, H_CODE, H_DATE, 
+      STRING_DATE, ADC_ID)
+    values (#{id,jdbcType=BIGINT}, #{hCode,jdbcType=VARCHAR}, #{hDate,jdbcType=DATE}, 
+      #{stringDate,jdbcType=DATE}, #{adcId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetail" >
+    insert into adc_holiday_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="hCode != null" >
+        H_CODE,
+      </if>
+      <if test="hDate != null" >
+        H_DATE,
+      </if>
+      <if test="stringDate != null" >
+        STRING_DATE,
+      </if>
+      <if test="adcId != null" >
+        ADC_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="hCode != null" >
+        #{hCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hDate != null" >
+        #{hDate,jdbcType=DATE},
+      </if>
+      <if test="stringDate != null" >
+        #{stringDate,jdbcType=DATE},
+      </if>
+      <if test="adcId != null" >
+        #{adcId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetailExample" resultType="java.lang.Integer" >
+    select count(*) from adc_holiday_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update adc_holiday_detail
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.hCode != null" >
+        H_CODE = #{record.hCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hDate != null" >
+        H_DATE = #{record.hDate,jdbcType=DATE},
+      </if>
+      <if test="record.stringDate != null" >
+        STRING_DATE = #{record.stringDate,jdbcType=DATE},
+      </if>
+      <if test="record.adcId != null" >
+        ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update adc_holiday_detail
+    set ID = #{record.id,jdbcType=BIGINT},
+      H_CODE = #{record.hCode,jdbcType=VARCHAR},
+      H_DATE = #{record.hDate,jdbcType=DATE},
+      STRING_DATE = #{record.stringDate,jdbcType=DATE},
+      ADC_ID = #{record.adcId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetail" >
+    update adc_holiday_detail
+    <set >
+      <if test="hCode != null" >
+        H_CODE = #{hCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hDate != null" >
+        H_DATE = #{hDate,jdbcType=DATE},
+      </if>
+      <if test="stringDate != null" >
+        STRING_DATE = #{stringDate,jdbcType=DATE},
+      </if>
+      <if test="adcId != null" >
+        ADC_ID = #{adcId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcHolidayDetail" >
+    update adc_holiday_detail
+    set H_CODE = #{hCode,jdbcType=VARCHAR},
+      H_DATE = #{hDate,jdbcType=DATE},
+      STRING_DATE = #{stringDate,jdbcType=DATE},
+      ADC_ID = #{adcId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

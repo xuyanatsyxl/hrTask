@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.AdcShiftBasicMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftBasic" >
+    <id column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="BASIC_SHIFT_NAME" property="basicShiftName" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="WORK_TIME" property="workTime" jdbcType="VARCHAR" />
+    <result column="OFF_TIME" property="offTime" jdbcType="VARCHAR" />
+    <result column="SHIFT_TYPE" property="shiftType" jdbcType="VARCHAR" />
+    <result column="ADC_ID" property="adcId" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="INTERVAL_START_TIME" property="intervalStartTime" jdbcType="VARCHAR" />
+    <result column="INTERVAL_END_TIME" property="intervalEndTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ENABLED" property="enabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SHIFT_ID, BASIC_SHIFT_NAME, DEPTID, WORK_TIME, OFF_TIME, SHIFT_TYPE, ADC_ID, OPERATOR, 
+    OPERATE_TIME, INTERVAL_START_TIME, INTERVAL_END_TIME, REMARK, ENABLED
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.AdcShiftBasicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adc_shift_basic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from adc_shift_basic
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from adc_shift_basic
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftBasicExample" >
+    delete from adc_shift_basic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcShiftBasic" >
+    insert into adc_shift_basic (SHIFT_ID, BASIC_SHIFT_NAME, DEPTID, 
+      WORK_TIME, OFF_TIME, SHIFT_TYPE, 
+      ADC_ID, OPERATOR, OPERATE_TIME, 
+      INTERVAL_START_TIME, INTERVAL_END_TIME, REMARK, 
+      ENABLED)
+    values (#{shiftId,jdbcType=VARCHAR}, #{basicShiftName,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+      #{workTime,jdbcType=VARCHAR}, #{offTime,jdbcType=VARCHAR}, #{shiftType,jdbcType=VARCHAR}, 
+      #{adcId,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{intervalStartTime,jdbcType=VARCHAR}, #{intervalEndTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcShiftBasic" >
+    insert into adc_shift_basic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shiftId != null" >
+        SHIFT_ID,
+      </if>
+      <if test="basicShiftName != null" >
+        BASIC_SHIFT_NAME,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="workTime != null" >
+        WORK_TIME,
+      </if>
+      <if test="offTime != null" >
+        OFF_TIME,
+      </if>
+      <if test="shiftType != null" >
+        SHIFT_TYPE,
+      </if>
+      <if test="adcId != null" >
+        ADC_ID,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="intervalStartTime != null" >
+        INTERVAL_START_TIME,
+      </if>
+      <if test="intervalEndTime != null" >
+        INTERVAL_END_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="enabled != null" >
+        ENABLED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="basicShiftName != null" >
+        #{basicShiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="offTime != null" >
+        #{offTime,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftType != null" >
+        #{shiftType,jdbcType=VARCHAR},
+      </if>
+      <if test="adcId != null" >
+        #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intervalStartTime != null" >
+        #{intervalStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalEndTime != null" >
+        #{intervalEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftBasicExample" resultType="java.lang.Integer" >
+    select count(*) from adc_shift_basic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update adc_shift_basic
+    <set >
+      <if test="record.shiftId != null" >
+        SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicShiftName != null" >
+        BASIC_SHIFT_NAME = #{record.basicShiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptid != null" >
+        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workTime != null" >
+        WORK_TIME = #{record.workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.offTime != null" >
+        OFF_TIME = #{record.offTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shiftType != null" >
+        SHIFT_TYPE = #{record.shiftType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adcId != null" >
+        ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.intervalStartTime != null" >
+        INTERVAL_START_TIME = #{record.intervalStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intervalEndTime != null" >
+        INTERVAL_END_TIME = #{record.intervalEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enabled != null" >
+        ENABLED = #{record.enabled,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update adc_shift_basic
+    set SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      BASIC_SHIFT_NAME = #{record.basicShiftName,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      WORK_TIME = #{record.workTime,jdbcType=VARCHAR},
+      OFF_TIME = #{record.offTime,jdbcType=VARCHAR},
+      SHIFT_TYPE = #{record.shiftType,jdbcType=VARCHAR},
+      ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      INTERVAL_START_TIME = #{record.intervalStartTime,jdbcType=VARCHAR},
+      INTERVAL_END_TIME = #{record.intervalEndTime,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      ENABLED = #{record.enabled,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.AdcShiftBasic" >
+    update adc_shift_basic
+    <set >
+      <if test="basicShiftName != null" >
+        BASIC_SHIFT_NAME = #{basicShiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null" >
+        WORK_TIME = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="offTime != null" >
+        OFF_TIME = #{offTime,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftType != null" >
+        SHIFT_TYPE = #{shiftType,jdbcType=VARCHAR},
+      </if>
+      <if test="adcId != null" >
+        ADC_ID = #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intervalStartTime != null" >
+        INTERVAL_START_TIME = #{intervalStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalEndTime != null" >
+        INTERVAL_END_TIME = #{intervalEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        ENABLED = #{enabled,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftBasic" >
+    update adc_shift_basic
+    set BASIC_SHIFT_NAME = #{basicShiftName,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=VARCHAR},
+      WORK_TIME = #{workTime,jdbcType=VARCHAR},
+      OFF_TIME = #{offTime,jdbcType=VARCHAR},
+      SHIFT_TYPE = #{shiftType,jdbcType=VARCHAR},
+      ADC_ID = #{adcId,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      INTERVAL_START_TIME = #{intervalStartTime,jdbcType=VARCHAR},
+      INTERVAL_END_TIME = #{intervalEndTime,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      ENABLED = #{enabled,jdbcType=VARCHAR}
+    where SHIFT_ID = #{shiftId,jdbcType=VARCHAR}
+  </update>
+</mapper>

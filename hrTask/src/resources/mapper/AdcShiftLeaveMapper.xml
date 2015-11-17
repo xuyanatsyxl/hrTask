@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.AdcShiftLeaveMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftLeave" >
+    <id column="XID" property="xid" jdbcType="BIGINT" />
+    <result column="ADC_DATE" property="adcDate" jdbcType="TIMESTAMP" />
+    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="EMPID" property="empid" jdbcType="BIGINT" />
+    <result column="ADC_ID" property="adcId" jdbcType="VARCHAR" />
+    <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
+    <result column="ADDITION_INFO" property="additionInfo" jdbcType="VARCHAR" />
+    <result column="AFF_DAYS" property="affDays" jdbcType="DOUBLE" />
+    <result column="AFF_HOURS" property="affHours" jdbcType="DOUBLE" />
+    <result column="REQUESTID" property="requestid" jdbcType="BIGINT" />
+    <result column="SOURCE_TYPE" property="sourceType" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    XID, ADC_DATE, DEPTID, EMPID, ADC_ID, SHIFT_ID, ADDITION_INFO, AFF_DAYS, AFF_HOURS, 
+    REQUESTID, SOURCE_TYPE, STATE, OPERATOR, OPERATE_TIME, REMARK
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.AdcShiftLeaveExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adc_shift_leave
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from adc_shift_leave
+    where XID = #{xid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from adc_shift_leave
+    where XID = #{xid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftLeaveExample" >
+    delete from adc_shift_leave
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcShiftLeave" >
+    insert into adc_shift_leave (XID, ADC_DATE, DEPTID, 
+      EMPID, ADC_ID, SHIFT_ID, 
+      ADDITION_INFO, AFF_DAYS, AFF_HOURS, 
+      REQUESTID, SOURCE_TYPE, STATE, 
+      OPERATOR, OPERATE_TIME, REMARK
+      )
+    values (#{xid,jdbcType=BIGINT}, #{adcDate,jdbcType=TIMESTAMP}, #{deptid,jdbcType=VARCHAR}, 
+      #{empid,jdbcType=BIGINT}, #{adcId,jdbcType=VARCHAR}, #{shiftId,jdbcType=VARCHAR}, 
+      #{additionInfo,jdbcType=VARCHAR}, #{affDays,jdbcType=DOUBLE}, #{affHours,jdbcType=DOUBLE}, 
+      #{requestid,jdbcType=BIGINT}, #{sourceType,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcShiftLeave" >
+    insert into adc_shift_leave
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="xid != null" >
+        XID,
+      </if>
+      <if test="adcDate != null" >
+        ADC_DATE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="empid != null" >
+        EMPID,
+      </if>
+      <if test="adcId != null" >
+        ADC_ID,
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID,
+      </if>
+      <if test="additionInfo != null" >
+        ADDITION_INFO,
+      </if>
+      <if test="affDays != null" >
+        AFF_DAYS,
+      </if>
+      <if test="affHours != null" >
+        AFF_HOURS,
+      </if>
+      <if test="requestid != null" >
+        REQUESTID,
+      </if>
+      <if test="sourceType != null" >
+        SOURCE_TYPE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="xid != null" >
+        #{xid,jdbcType=BIGINT},
+      </if>
+      <if test="adcDate != null" >
+        #{adcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null" >
+        #{empid,jdbcType=BIGINT},
+      </if>
+      <if test="adcId != null" >
+        #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="additionInfo != null" >
+        #{additionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="affDays != null" >
+        #{affDays,jdbcType=DOUBLE},
+      </if>
+      <if test="affHours != null" >
+        #{affHours,jdbcType=DOUBLE},
+      </if>
+      <if test="requestid != null" >
+        #{requestid,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.AdcShiftLeaveExample" resultType="java.lang.Integer" >
+    select count(*) from adc_shift_leave
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update adc_shift_leave
+    <set >
+      <if test="record.xid != null" >
+        XID = #{record.xid,jdbcType=BIGINT},
+      </if>
+      <if test="record.adcDate != null" >
+        ADC_DATE = #{record.adcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deptid != null" >
+        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empid != null" >
+        EMPID = #{record.empid,jdbcType=BIGINT},
+      </if>
+      <if test="record.adcId != null" >
+        ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shiftId != null" >
+        SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.additionInfo != null" >
+        ADDITION_INFO = #{record.additionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.affDays != null" >
+        AFF_DAYS = #{record.affDays,jdbcType=DOUBLE},
+      </if>
+      <if test="record.affHours != null" >
+        AFF_HOURS = #{record.affHours,jdbcType=DOUBLE},
+      </if>
+      <if test="record.requestid != null" >
+        REQUESTID = #{record.requestid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceType != null" >
+        SOURCE_TYPE = #{record.sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update adc_shift_leave
+    set XID = #{record.xid,jdbcType=BIGINT},
+      ADC_DATE = #{record.adcDate,jdbcType=TIMESTAMP},
+      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      EMPID = #{record.empid,jdbcType=BIGINT},
+      ADC_ID = #{record.adcId,jdbcType=VARCHAR},
+      SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
+      ADDITION_INFO = #{record.additionInfo,jdbcType=VARCHAR},
+      AFF_DAYS = #{record.affDays,jdbcType=DOUBLE},
+      AFF_HOURS = #{record.affHours,jdbcType=DOUBLE},
+      REQUESTID = #{record.requestid,jdbcType=BIGINT},
+      SOURCE_TYPE = #{record.sourceType,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.AdcShiftLeave" >
+    update adc_shift_leave
+    <set >
+      <if test="adcDate != null" >
+        ADC_DATE = #{adcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="empid != null" >
+        EMPID = #{empid,jdbcType=BIGINT},
+      </if>
+      <if test="adcId != null" >
+        ADC_ID = #{adcId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="additionInfo != null" >
+        ADDITION_INFO = #{additionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="affDays != null" >
+        AFF_DAYS = #{affDays,jdbcType=DOUBLE},
+      </if>
+      <if test="affHours != null" >
+        AFF_HOURS = #{affHours,jdbcType=DOUBLE},
+      </if>
+      <if test="requestid != null" >
+        REQUESTID = #{requestid,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where XID = #{xid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftLeave" >
+    update adc_shift_leave
+    set ADC_DATE = #{adcDate,jdbcType=TIMESTAMP},
+      DEPTID = #{deptid,jdbcType=VARCHAR},
+      EMPID = #{empid,jdbcType=BIGINT},
+      ADC_ID = #{adcId,jdbcType=VARCHAR},
+      SHIFT_ID = #{shiftId,jdbcType=VARCHAR},
+      ADDITION_INFO = #{additionInfo,jdbcType=VARCHAR},
+      AFF_DAYS = #{affDays,jdbcType=DOUBLE},
+      AFF_HOURS = #{affHours,jdbcType=DOUBLE},
+      REQUESTID = #{requestid,jdbcType=BIGINT},
+      SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where XID = #{xid,jdbcType=BIGINT}
+  </update>
+</mapper>

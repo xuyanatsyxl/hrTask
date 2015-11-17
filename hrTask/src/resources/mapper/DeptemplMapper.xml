@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.DeptemplMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.Deptempl" >
+    <id column="EMPID" property="empid" jdbcType="BIGINT" />
+    <id column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="ZBZWID" property="zbzwid" jdbcType="INTEGER" />
+    <result column="JOBNAME" property="jobname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    EMPID, DEPTID, DEPTNAME, ZBZWID, JOBNAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.DeptemplExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from deptempl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.DeptemplKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from deptempl
+    where EMPID = #{empid,jdbcType=BIGINT}
+      and DEPTID = #{deptid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="org.infotechdept.hr.task.model.DeptemplKey" >
+    delete from deptempl
+    where EMPID = #{empid,jdbcType=BIGINT}
+      and DEPTID = #{deptid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.DeptemplExample" >
+    delete from deptempl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.Deptempl" >
+    insert into deptempl (EMPID, DEPTID, DEPTNAME, 
+      ZBZWID, JOBNAME)
+    values (#{empid,jdbcType=BIGINT}, #{deptid,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, 
+      #{zbzwid,jdbcType=INTEGER}, #{jobname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.Deptempl" >
+    insert into deptempl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        EMPID,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME,
+      </if>
+      <if test="zbzwid != null" >
+        ZBZWID,
+      </if>
+      <if test="jobname != null" >
+        JOBNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        #{empid,jdbcType=BIGINT},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbzwid != null" >
+        #{zbzwid,jdbcType=INTEGER},
+      </if>
+      <if test="jobname != null" >
+        #{jobname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.DeptemplExample" resultType="java.lang.Integer" >
+    select count(*) from deptempl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update deptempl
+    <set >
+      <if test="record.empid != null" >
+        EMPID = #{record.empid,jdbcType=BIGINT},
+      </if>
+      <if test="record.deptid != null" >
+        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptname != null" >
+        DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zbzwid != null" >
+        ZBZWID = #{record.zbzwid,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobname != null" >
+        JOBNAME = #{record.jobname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update deptempl
+    set EMPID = #{record.empid,jdbcType=BIGINT},
+      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
+      ZBZWID = #{record.zbzwid,jdbcType=INTEGER},
+      JOBNAME = #{record.jobname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.Deptempl" >
+    update deptempl
+    <set >
+      <if test="deptname != null" >
+        DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbzwid != null" >
+        ZBZWID = #{zbzwid,jdbcType=INTEGER},
+      </if>
+      <if test="jobname != null" >
+        JOBNAME = #{jobname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where EMPID = #{empid,jdbcType=BIGINT}
+      and DEPTID = #{deptid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.Deptempl" >
+    update deptempl
+    set DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      ZBZWID = #{zbzwid,jdbcType=INTEGER},
+      JOBNAME = #{jobname,jdbcType=VARCHAR}
+    where EMPID = #{empid,jdbcType=BIGINT}
+      and DEPTID = #{deptid,jdbcType=VARCHAR}
+  </update>
+</mapper>
