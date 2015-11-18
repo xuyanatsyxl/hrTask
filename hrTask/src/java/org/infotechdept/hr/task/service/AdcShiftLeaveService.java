@@ -192,9 +192,6 @@ public class AdcShiftLeaveService {
 	 * @throws ParseException 
 	 */
 	public int procAdcShiftLeaveOne(AdcShiftLeave record) throws ParseException {
-		if (record.getState().equalsIgnoreCase("2")) {
-			return -1;
-		}
 		// 检查是否有排班记录
 		AdcShiftSchedulingExample exp = new AdcShiftSchedulingExample();
 		exp.createCriteria().andSchDateEqualTo(record.getAdcDate()).andEmpidEqualTo(record.getEmpid()).andDeptidEqualTo(record.getDeptid());

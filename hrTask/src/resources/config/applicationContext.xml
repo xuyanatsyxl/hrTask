@@ -20,7 +20,8 @@
 		<task:scheduled ref="engineer" method="makeNextDayScheduling" cron="0 0 21 * * ?" />
 		<!-- 应用oa请求记录，7点至22点之间，每隔10分钟执行一次 cron = "0 0 0/1 * * ?" -->
 		<task:scheduled ref="engineer" method="procOaData" cron="0 0/10 7-22 * * ?" />
-		
+		<!-- 每天处理当天的请假记录 -->
+		<task:scheduled ref="engineer" method="procAdcShiftLeave" cron="0 0 22 * * ?" />
 		<!-- 查询每天HR系统产生的异动记录，并应用的考勤系统中，每天晚上10点执行 -->
 		<task:scheduled ref="engineer" method="scanHrForStaffer" cron="0 0 22 * * ?" />
 		<!-- 每天早上八点将前一天生成的异常数据推送到OA端 -->

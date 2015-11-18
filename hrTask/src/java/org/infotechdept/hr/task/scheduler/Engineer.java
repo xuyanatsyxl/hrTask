@@ -90,16 +90,19 @@ public class Engineer {
 	}
 	
 	/**
-	 * 每天执行，处理请假表中未能应用到排班表中的记录
+	 * 每天执行，处理当天请假表
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public void procAdcShiftLeave(){
+		Calendar calendar = Calendar.getInstance();
+		Date pDate = HrUtils.stringToDate(HrUtils.date2String(calendar.getTime(), "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");	
 		AdcShiftLeaveExample exp = new AdcShiftLeaveExample();
-		exp.createCriteria().andStateNotEqualTo(new String("2"));
+		exp.createCriteria().andAdcDateEqualTo(pDate);
 		List<AdcShiftLeave> items = adcShiftLeaveMapper.selectByExample(exp);
 		for (AdcShiftLeave rec : items){
 			try{
 				int i = adcShiftLeaveService.procAdcShiftLeaveOne(rec);
+				System.out.println(i);
 				if (i > 0){
 					rec.setState(new String("2"));
 					adcShiftLeaveMapper.updateByPrimaryKeySelective(rec);

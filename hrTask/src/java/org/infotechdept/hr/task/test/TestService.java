@@ -132,7 +132,6 @@ public class TestService {
 		}	
 	}
 	
-	@Test
 	public void testMakeNextDayScheduling(){
 		engineer.makeNextDayScheduling();
 	}
@@ -158,7 +157,11 @@ public class TestService {
 		Map resultMap = adcShiftUtils.getMetaSchedulingData("001007010005003", Long.valueOf("15218830"), new Date());
 		AdcShiftApply applyItem = (AdcShiftApply) resultMap.get("apply");
 		AdcShiftRecord recordItem = (AdcShiftRecord) resultMap.get("record");
-		System.out.println(applyItem.getApplyId());
-		
+		System.out.println(applyItem.getApplyId());	
+	}
+	
+	@Test
+	public void testAdcShiftLeave(){
+		engineer.procAdcShiftLeave();
 	}
 }
