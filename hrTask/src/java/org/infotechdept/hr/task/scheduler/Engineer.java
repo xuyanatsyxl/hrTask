@@ -187,12 +187,13 @@ public class Engineer {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.DAY_OF_MONTH, 1);
-		Date tmpDate = cal.getTime();
+		Date tmpDate = HrUtils.stringToDate(HrUtils.date2String(cal.getTime(), "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");
+				
 
 		List<AdcShiftRecord> items = adcShiftRecordMapper.selectByExample(new AdcShiftRecordExample());
 		for (AdcShiftRecord record : items) {
 			AdcShiftRecordLogs logs = new AdcShiftRecordLogs();
-			logs.setRq(HrUtils.stringToDate(HrUtils.date2String(tmpDate, "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd"));
+			logs.setRq(tmpDate);
 			logs.setRecId(record.getRecId());
 			logs.setBeginTime(HrUtils.getDateTime());
 			
