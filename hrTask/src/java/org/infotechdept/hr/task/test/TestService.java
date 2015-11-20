@@ -160,8 +160,15 @@ public class TestService {
 		System.out.println(applyItem.getApplyId());	
 	}
 	
-	@Test
 	public void testAdcShiftLeave(){
 		engineer.procAdcShiftLeave();
+	}
+	
+	/**
+	 * 就餐数据测试
+	 */
+	@Test
+	public void testAdcShiftMeals(){
+		engineer.pushExceptionToOA();
 	}
 }

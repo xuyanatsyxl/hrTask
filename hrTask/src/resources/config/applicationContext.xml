@@ -26,6 +26,8 @@
 		<task:scheduled ref="engineer" method="scanHrForStaffer" cron="0 0 22 * * ?" />
 		<!-- 每天早上八点将前一天生成的异常数据推送到OA端 -->
 		<task:scheduled ref="engineer" method="pushExceptionToOA" cron="0 0 8 * * ?" />
+		<!-- 每天早上三点汇总头一天的就餐数据 -->
+		<task:scheduled ref="engineer" method="procAdcShiftMeals" cron="0 0 8 * * ?" />
 	</task:scheduled-tasks>
 	<task:scheduler id="myScheduler" pool-size="40" />
 

@@ -82,11 +82,15 @@ public class Engineer {
 	@Autowired
 	private AdcShiftStafferService adcShiftStafferService;
 	
+	/**
+	 * 返回昨天的日期，格式yyyy-MM-dd
+	 * @return
+	 */
 	private Date getYesterday(){
 		Calendar calendar = Calendar.getInstance();
-		//calendar.setTime(new Date());
-		calendar.set(Calendar.DAY_OF_MONTH, -1);
-		return calendar.getTime();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		return HrUtils.stringToDate(HrUtils.date2String(calendar.getTime(), "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");
 	}
 	
 	/**
@@ -114,6 +118,18 @@ public class Engineer {
 		
 	}
 	
+	/**
+	 * 每天就餐数据汇总
+	 */
+	public void procAdcShiftMeals(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		Map paramMap = new HashMap();
+		paramMap.put("p_rq", HrUtils.date2String(calendar.getTime(), "yyyy-MM-dd"));
+		sqlSession.update("AdcSysProc.f_proc_meals", paramMap);
+	}
+	
 	@Resource
 	PlatformTransactionManager txManager;
 	
@@ -132,7 +148,29 @@ public class Engineer {
 	}
 	
 	/**
-	 *  处理oa数据
+	 *  处理oa数据，食堂请假专用
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public void procOaMealsData(){
+		OaIntfExample example = new OaIntfExample();
+		example.createCriteria().andClbzNotEqualTo(new String("2")).andCllxEqualTo("30");
+		List<OaIntf> items = oaIntfMapper.selectByExample(example);
+		for(OaIntf rec : items){
+			try{
+				int i = adcShiftLeaveService.transOaIntfRecord(rec);
+				if(i > 0){
+					rec.setClbz(new String("2"));
+				}
+				oaIntfMapper.updateByPrimaryKey(rec);					
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+
+		}
+	}
+	
+	/**
+	 *  处理oa数据，排除食堂请假
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public void procOaData(){
