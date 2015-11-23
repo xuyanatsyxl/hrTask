@@ -8,6 +8,7 @@ import org.infotechdept.hr.system.HrUtils;
 import org.infotechdept.hr.system.SpringBeanLoader;
 import org.infotechdept.hr.task.dao.AdcShiftStafferMapper;
 import org.infotechdept.hr.task.hr.service.HrStafferService;
+import org.infotechdept.hr.task.hr.service.impl.HrLeaveServiceImpl;
 import org.infotechdept.hr.task.model.AdcShiftStaffer;
 import org.infotechdept.hr.task.model.AdcShiftStafferExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,12 @@ public class AdcShiftStafferService {
 		if (HrUtils.isNotEmpty(item.getProcClass())){
 			try{
 				HrStafferService srv = (HrStafferService) SpringBeanLoader.getBean(item.getProcClass());
-				srv.procHrStaffer(stafferMap);
+				Map resultMap = srv.procHrStaffer(stafferMap);
+				return resultMap;
 			}catch(Exception e){
 				outMap.put("success", new Boolean(false));
 				outMap.put("message", e.getMessage());
+				return outMap;
 			}
 		}
 		return outMap;

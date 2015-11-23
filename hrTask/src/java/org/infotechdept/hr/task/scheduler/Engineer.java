@@ -29,6 +29,7 @@ import org.infotechdept.hr.task.model.AdcShiftRecordLogs;
 import org.infotechdept.hr.task.model.OaIntf;
 import org.infotechdept.hr.task.model.OaIntfExample;
 import org.infotechdept.hr.task.service.AdcShiftLeaveService;
+import org.infotechdept.hr.task.service.AdcShiftMealsService;
 import org.infotechdept.hr.task.service.AdcShiftSchedulingService;
 import org.infotechdept.hr.task.service.AdcShiftStafferService;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -81,6 +82,8 @@ public class Engineer {
 	
 	@Autowired
 	private AdcShiftStafferService adcShiftStafferService;
+	@Autowired
+	private AdcShiftMealsService adcShiftMealsService;
 	
 	/**
 	 * 返回昨天的日期，格式yyyy-MM-dd
@@ -157,10 +160,8 @@ public class Engineer {
 		List<OaIntf> items = oaIntfMapper.selectByExample(example);
 		for(OaIntf rec : items){
 			try{
-				int i = adcShiftLeaveService.transOaIntfRecord(rec);
-				if(i > 0){
-					rec.setClbz(new String("2"));
-				}
+				adcShiftMealsService.transOaMealsRecord(rec);
+				rec.setClbz(new String("2"));
 				oaIntfMapper.updateByPrimaryKey(rec);					
 			}catch(Exception ex){
 				ex.printStackTrace();

@@ -15,6 +15,7 @@ import org.infotechdept.hr.task.dao.AdcShiftMealsMapper;
 import org.infotechdept.hr.task.dao.AdcShiftRecordLogsMapper;
 import org.infotechdept.hr.task.dao.AdcShiftRecordMapper;
 import org.infotechdept.hr.task.dao.OaIntfMapper;
+import org.infotechdept.hr.task.hr.service.impl.HrLeaveServiceImpl;
 import org.infotechdept.hr.task.model.AdcShiftApply;
 import org.infotechdept.hr.task.model.AdcShiftRecord;
 import org.infotechdept.hr.task.model.AdcShiftRecordExample;
@@ -70,6 +71,8 @@ public class TestService {
 	
 	@Autowired
 	private AdcShiftUtils adcShiftUtils;
+	@Autowired
+	private HrLeaveServiceImpl hrLeaveServiceImpl;
 
 	public void test() throws ParseException {
 		OaIntfExample oaIntfExample = new OaIntfExample();
@@ -136,7 +139,7 @@ public class TestService {
 		engineer.makeNextDayScheduling();
 	}
 	
-	
+	@Test
 	public void testHr(){
 		Map paramMap = new HashMap();
 		paramMap.put("date", HrUtils.getCurDate("yyyy-MM-dd"));
@@ -167,8 +170,8 @@ public class TestService {
 	/**
 	 * 就餐数据测试
 	 */
-	@Test
+
 	public void testAdcShiftMeals(){
-		engineer.pushExceptionToOA();
+		engineer.procOaMealsData();
 	}
 }

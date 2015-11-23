@@ -16,9 +16,9 @@
 	<task:scheduled-tasks scheduler="myScheduler">
 		<!-- 生成考勤异常数据，每天凌晨3点定时运行 -->
 		<task:scheduled ref="engineer" method="makeKqReport" cron="0 0 3 * * ?" />
-		<!-- 生成下个日的排班数据，在每天晚21点 cron = "0 0 21 0 * ?"-->
+		<!-- 生成下个日的排班数据，在每天晚21点 -->
 		<task:scheduled ref="engineer" method="makeNextDayScheduling" cron="0 0 21 * * ?" />
-		<!-- 应用oa请求记录，7点至22点之间，每隔10分钟执行一次 cron = "0 0 0/1 * * ?" -->
+		<!-- 应用oa请求记录，7点至22点之间，每隔10分钟执行一次  -->
 		<task:scheduled ref="engineer" method="procOaData" cron="0 0/10 7-22 * * ?" />
 		<!-- 每天处理当天的请假记录 -->
 		<task:scheduled ref="engineer" method="procAdcShiftLeave" cron="0 0 22 * * ?" />
@@ -28,8 +28,10 @@
 		<task:scheduled ref="engineer" method="pushExceptionToOA" cron="0 0 8 * * ?" />
 		<!-- 每天早上三点汇总头一天的就餐数据 -->
 		<task:scheduled ref="engineer" method="procAdcShiftMeals" cron="0 0 8 * * ?" />
+		<!-- 应用oa请饭假记录，7点至22点之间，每隔5分钟执行一次 -->
+		<task:scheduled ref="engineer" method="procOaMealsData" cron="0 0/5 7-22 * * ?" />
 	</task:scheduled-tasks>
-	<task:scheduler id="myScheduler" pool-size="40" />
+	<task:scheduler id="myScheduler" pool-size="60" />
 
 	<!-- Spring服务组件扫描 -->
 	<context:component-scan base-package="org.infotechdept.hr.task.service" />
@@ -68,7 +70,7 @@
 	<!-- SqlSessionFactory配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath:**/*Mapper.xml" />
 	</bean>
 
 	<!-- Mybatis的Mapper扫描器 -->

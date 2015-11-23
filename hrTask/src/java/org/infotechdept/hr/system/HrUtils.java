@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -283,6 +284,22 @@ public class HrUtils {
 		b1 = b1.setScale(1, BigDecimal.ROUND_HALF_UP);
 		float fPoint = b1.subtract(b2).floatValue();
 		return (fPoint > 0);
+	}
+	
+	/**
+	 * 返回指定日期所在月份的开始日期和结束日期
+	 * @param pDate
+	 * @return
+	 */
+	public static Map getInMonthDate(Date pDate){
+		Map<String, Date> dateMap = new HashMap<String, Date>();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH)); 
+		dateMap.put("start_date", calendar.getTime());
+		
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		dateMap.put("end_date", calendar.getTime());
+		return dateMap;
 	}
 
 }

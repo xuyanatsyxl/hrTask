@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dept">
+    
+    <!-- 查询登陆信息 -->
+    <select id="queryUserForLogin" parameterType="Map" resultType="hashmap">
+        select userid, username, password, DEPTID
+  		  from eauser 
+  		 where enabled="1" and LOCKED="0"
+  		 <if test="account != null">
+  		     and account = #{account}
+  		 </if>
+    </select>
+
+    <!-- 插入一条部门记录 -->
+    <insert id="saveDeptItem" parameterType="Map" flushCache="true">
+        insert into EADEPT(deptid, deptname, parentid, sortno, enabled, leaf)
+         values(#{deptid, jdbcType=VARCHAR}, #{deptname, jdbcType=VARCHAR}, #{parentid, jdbcType=VARCHAR}, #{sortno, jdbcType=INTEGER},
+         #{enabled, jdbcType=VARCHAR}, #{leaf, jdbcType=VARCHAR})
+    </insert>
+    
+    <!-- 根据条件查询部门 -->
+    <select id="queryDeptidByParam" parameterType="Map" resultType="java.lang.String">
+        select DEPTID from EADEPT where enabled="1"
+            <if test = "deptname != null and deptid !=''">
+                and DEPTNAME=#{deptname, jdbcType=VARCHAR}
+            </if>
+             <if test = "level != null">
+               	and char_length(deptid)=#{level, jdbcType=INTEGER}
+            </if> 
+            <if test = "deptid != null and deptid != ''">
+               	and deptid like #{deptid, jdbcType=VARCHAR}
+            </if>          
+    </select>
+    
+    <!-- 取最大号 -->
+    <select id="getMaxSubDeptId" parameterType="java.lang.String" resultType="java.lang.String">
+        select max(deptid) as deptid from eadept where PARENTID = #{deptid, jdbcType=VARCHAR}
+    </select>
+    
+</mapper>

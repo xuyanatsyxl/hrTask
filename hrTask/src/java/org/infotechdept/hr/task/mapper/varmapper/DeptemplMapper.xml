@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="Deptempl" >
+<mapper namespace="DeptemplMapper" >
     <!-- 查询人员部门信息 -->
  	<select id="queryDeptempls" parameterType="HashMap" resultType="HashMap">
  	    select a.EMPID, a.code, a.name, c.deptid, c.deptname

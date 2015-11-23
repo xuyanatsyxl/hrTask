@@ -48,7 +48,7 @@ public class AdcShiftMealsService {
 		return null;
 	}
 	
-	public void transOaMealsRecord(OaIntf rec){
+	public int transOaMealsRecord(OaIntf rec){
 		//我只处理饭假，谢谢！
 		if (!rec.getCllx().equalsIgnoreCase("30")){
 			
@@ -59,10 +59,10 @@ public class AdcShiftMealsService {
 		
 		String[] codes = (rec.getWorkcode() + "," + rec.getTxrcode()).split(",");
 		if (codes.length == 0){
-			
+			return -1;
 		}
 		paramMap.put("codes", codes);
-		List<Map> resultMap = sqlSession.selectList("Deptempl.queryDeptempls", paramMap);
+		List<Map> resultMap = sqlSession.selectList("DeptemplMapper.queryDeptempls", paramMap);
 		
 		if (resultMap.size() > 0){
 			Date currentDate = HrUtils.stringToDate(HrUtils.getCurDate("yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");
@@ -91,5 +91,6 @@ public class AdcShiftMealsService {
 			}
 			
 		}
+		return 0;
 	}
 }
