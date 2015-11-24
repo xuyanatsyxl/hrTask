@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftApply" >
     <id column="APPLY_ID" property="applyId" jdbcType="BIGINT" />
     <result column="RECORD_TYPE" property="recordType" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="PATTERN_ID" property="patternId" jdbcType="VARCHAR" />
@@ -106,7 +106,7 @@
     insert into adc_shift_apply (APPLY_ID, RECORD_TYPE, DEPTID, 
       GROUP_ID, EMPID, PATTERN_ID, 
       PRIORITY, ENABLED)
-    values (#{applyId,jdbcType=BIGINT}, #{recordType,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{applyId,jdbcType=BIGINT}, #{recordType,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{groupId,jdbcType=VARCHAR}, #{empid,jdbcType=BIGINT}, #{patternId,jdbcType=VARCHAR}, 
       #{priority,jdbcType=VARCHAR}, #{enabled,jdbcType=VARCHAR})
   </insert>
@@ -146,7 +146,7 @@
         #{recordType,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         #{groupId,jdbcType=VARCHAR},
@@ -181,7 +181,7 @@
         RECORD_TYPE = #{record.recordType,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.groupId != null" >
         GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
@@ -207,7 +207,7 @@
     update adc_shift_apply
     set APPLY_ID = #{record.applyId,jdbcType=BIGINT},
       RECORD_TYPE = #{record.recordType,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
       EMPID = #{record.empid,jdbcType=BIGINT},
       PATTERN_ID = #{record.patternId,jdbcType=VARCHAR},
@@ -224,7 +224,7 @@
         RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         GROUP_ID = #{groupId,jdbcType=VARCHAR},
@@ -247,7 +247,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftApply" >
     update adc_shift_apply
     set RECORD_TYPE = #{recordType,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       GROUP_ID = #{groupId,jdbcType=VARCHAR},
       EMPID = #{empid,jdbcType=BIGINT},
       PATTERN_ID = #{patternId,jdbcType=VARCHAR},

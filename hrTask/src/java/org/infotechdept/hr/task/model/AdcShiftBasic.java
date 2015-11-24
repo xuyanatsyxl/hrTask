@@ -7,7 +7,7 @@ public class AdcShiftBasic {
 
     private String basicShiftName;
 
-    private String deptid;
+    private Long deptid;
 
     private String workTime;
 
@@ -45,12 +45,12 @@ public class AdcShiftBasic {
         this.basicShiftName = basicShiftName == null ? null : basicShiftName.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getWorkTime() {

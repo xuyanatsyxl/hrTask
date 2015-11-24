@@ -50,7 +50,7 @@ public class HrLeaveServiceImpl implements HrStafferService {
 		 */
 		Map resultMap = new HashMap(); 
 		BigDecimal bdEmpid = (BigDecimal) stafferMap.get("C_EMPOID");
-		Integer empid = bdEmpid.intValue();
+		Long empid = bdEmpid.longValue();
 		String oldUnitName = (String)stafferMap.get("C_OLDUNITNAME");
 		String deptidStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
 	

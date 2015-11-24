@@ -3,7 +3,7 @@
 <mapper namespace="org.infotechdept.hr.task.dao.AdcShiftUploadMapper" >
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftUpload" >
     <id column="upfileid" property="upfileid" jdbcType="VARCHAR" />
-    <result column="deptid" property="deptid" jdbcType="VARCHAR" />
+    <result column="deptid" property="deptid" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="filesize" property="filesize" jdbcType="INTEGER" />
@@ -108,7 +108,7 @@
       path, filesize, operator, 
       operate_time, state, remark
       )
-    values (#{upfileid,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+    values (#{upfileid,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
       #{path,jdbcType=VARCHAR}, #{filesize,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
@@ -149,7 +149,7 @@
         #{upfileid,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
@@ -187,7 +187,7 @@
         upfileid = #{record.upfileid,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        deptid = #{record.deptid,jdbcType=VARCHAR},
+        deptid = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
   <update id="updateByExample" parameterType="map" >
     update adc_shift_upload
     set upfileid = #{record.upfileid,jdbcType=VARCHAR},
-      deptid = #{record.deptid,jdbcType=VARCHAR},
+      deptid = #{record.deptid,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       path = #{record.path,jdbcType=VARCHAR},
       filesize = #{record.filesize,jdbcType=INTEGER},
@@ -234,7 +234,7 @@
     update adc_shift_upload
     <set >
       <if test="deptid != null" >
-        deptid = #{deptid,jdbcType=VARCHAR},
+        deptid = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftUpload" >
     update adc_shift_upload
-    set deptid = #{deptid,jdbcType=VARCHAR},
+    set deptid = #{deptid,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       filesize = #{filesize,jdbcType=INTEGER},

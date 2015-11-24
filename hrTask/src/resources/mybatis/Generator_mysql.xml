@@ -39,7 +39,7 @@
 			targetPackage="org.infotechdept.hr.task.dao" targetProject="../../../src/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<!-- 
+		<!--  		-->	
  		<table tableName="adc_attend_type" />
 		<table tableName="adc_holiday" />
 		<table tableName="adc_holiday_detail" />
@@ -63,7 +63,7 @@
 		<table tableName="adc_dinner_room_unit"/>
 		<table tableName="adc_dinner_room_dkj"/>
 		<table tableName="adc_shift_scheduling" />
- 		-->	
+
 
 	</context>
 </generatorConfiguration>

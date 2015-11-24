@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcDinnerRoomUnit" >
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="ROOM_ID" property="roomId" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="UNIT_TYPE" property="unitType" jdbcType="VARCHAR" />
@@ -110,7 +110,7 @@
       GROUP_ID, EMPID, UNIT_TYPE, 
       VALID_START_DATE, VALID_END_DATE, OPERATE_TIME, 
       OPERATOR)
-    values (#{id,jdbcType=BIGINT}, #{roomId,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{roomId,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{groupId,jdbcType=VARCHAR}, #{empid,jdbcType=BIGINT}, #{unitType,jdbcType=VARCHAR}, 
       #{validStartDate,jdbcType=TIMESTAMP}, #{validEndDate,jdbcType=TIMESTAMP}, #{operateTime,jdbcType=TIMESTAMP}, 
       #{operator,jdbcType=VARCHAR})
@@ -157,7 +157,7 @@
         #{roomId,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         #{groupId,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
         ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.groupId != null" >
         GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
@@ -230,7 +230,7 @@
     update adc_dinner_room_unit
     set ID = #{record.id,jdbcType=BIGINT},
       ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
       EMPID = #{record.empid,jdbcType=BIGINT},
       UNIT_TYPE = #{record.unitType,jdbcType=VARCHAR},
@@ -249,7 +249,7 @@
         ROOM_ID = #{roomId,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         GROUP_ID = #{groupId,jdbcType=VARCHAR},
@@ -278,7 +278,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcDinnerRoomUnit" >
     update adc_dinner_room_unit
     set ROOM_ID = #{roomId,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       GROUP_ID = #{groupId,jdbcType=VARCHAR},
       EMPID = #{empid,jdbcType=BIGINT},
       UNIT_TYPE = #{unitType,jdbcType=VARCHAR},

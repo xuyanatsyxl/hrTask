@@ -3,7 +3,7 @@
 <mapper namespace="org.infotechdept.hr.task.dao.DeptemplMapper" >
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.Deptempl" >
     <id column="EMPID" property="empid" jdbcType="BIGINT" />
-    <id column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <id column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
     <result column="ZBZWID" property="zbzwid" jdbcType="INTEGER" />
     <result column="JOBNAME" property="jobname" jdbcType="VARCHAR" />
@@ -88,12 +88,12 @@
     <include refid="Base_Column_List" />
     from deptempl
     where EMPID = #{empid,jdbcType=BIGINT}
-      and DEPTID = #{deptid,jdbcType=VARCHAR}
+      and DEPTID = #{deptid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="org.infotechdept.hr.task.model.DeptemplKey" >
     delete from deptempl
     where EMPID = #{empid,jdbcType=BIGINT}
-      and DEPTID = #{deptid,jdbcType=VARCHAR}
+      and DEPTID = #{deptid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.DeptemplExample" >
     delete from deptempl
@@ -104,7 +104,7 @@
   <insert id="insert" parameterType="org.infotechdept.hr.task.model.Deptempl" >
     insert into deptempl (EMPID, DEPTID, DEPTNAME, 
       ZBZWID, JOBNAME)
-    values (#{empid,jdbcType=BIGINT}, #{deptid,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, 
+    values (#{empid,jdbcType=BIGINT}, #{deptid,jdbcType=BIGINT}, #{deptname,jdbcType=VARCHAR}, 
       #{zbzwid,jdbcType=INTEGER}, #{jobname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.Deptempl" >
@@ -131,7 +131,7 @@
         #{empid,jdbcType=BIGINT},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="deptname != null" >
         #{deptname,jdbcType=VARCHAR},
@@ -157,7 +157,7 @@
         EMPID = #{record.empid,jdbcType=BIGINT},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.deptname != null" >
         DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
@@ -176,7 +176,7 @@
   <update id="updateByExample" parameterType="map" >
     update deptempl
     set EMPID = #{record.empid,jdbcType=BIGINT},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
       ZBZWID = #{record.zbzwid,jdbcType=INTEGER},
       JOBNAME = #{record.jobname,jdbcType=VARCHAR}
@@ -198,7 +198,7 @@
       </if>
     </set>
     where EMPID = #{empid,jdbcType=BIGINT}
-      and DEPTID = #{deptid,jdbcType=VARCHAR}
+      and DEPTID = #{deptid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.Deptempl" >
     update deptempl
@@ -206,6 +206,6 @@
       ZBZWID = #{zbzwid,jdbcType=INTEGER},
       JOBNAME = #{jobname,jdbcType=VARCHAR}
     where EMPID = #{empid,jdbcType=BIGINT}
-      and DEPTID = #{deptid,jdbcType=VARCHAR}
+      and DEPTID = #{deptid,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -7,7 +7,7 @@ public class AdcDinnerRoomUnit {
 
     private String roomId;
 
-    private String deptid;
+    private Long deptid;
 
     private String groupId;
 
@@ -39,12 +39,12 @@ public class AdcDinnerRoomUnit {
         this.roomId = roomId == null ? null : roomId.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getGroupId() {

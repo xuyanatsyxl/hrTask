@@ -114,52 +114,52 @@ public class EmployeeExample {
             return (Criteria) this;
         }
 
-        public Criteria andEmpidEqualTo(Integer value) {
+        public Criteria andEmpidEqualTo(Long value) {
             addCriterion("EMPID =", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidNotEqualTo(Integer value) {
+        public Criteria andEmpidNotEqualTo(Long value) {
             addCriterion("EMPID <>", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidGreaterThan(Integer value) {
+        public Criteria andEmpidGreaterThan(Long value) {
             addCriterion("EMPID >", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andEmpidGreaterThanOrEqualTo(Long value) {
             addCriterion("EMPID >=", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidLessThan(Integer value) {
+        public Criteria andEmpidLessThan(Long value) {
             addCriterion("EMPID <", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidLessThanOrEqualTo(Integer value) {
+        public Criteria andEmpidLessThanOrEqualTo(Long value) {
             addCriterion("EMPID <=", value, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidIn(List<Integer> values) {
+        public Criteria andEmpidIn(List<Long> values) {
             addCriterion("EMPID in", values, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidNotIn(List<Integer> values) {
+        public Criteria andEmpidNotIn(List<Long> values) {
             addCriterion("EMPID not in", values, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidBetween(Integer value1, Integer value2) {
+        public Criteria andEmpidBetween(Long value1, Long value2) {
             addCriterion("EMPID between", value1, value2, "empid");
             return (Criteria) this;
         }
 
-        public Criteria andEmpidNotBetween(Integer value1, Integer value2) {
+        public Criteria andEmpidNotBetween(Long value1, Long value2) {
             addCriterion("EMPID not between", value1, value2, "empid");
             return (Criteria) this;
         }

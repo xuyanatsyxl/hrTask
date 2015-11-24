@@ -7,7 +7,7 @@ public class AdcShiftPattern {
 
     private String patternShiftName;
 
-    private String deptid;
+    private Long deptid;
 
     private String regularCycle;
 
@@ -37,12 +37,12 @@ public class AdcShiftPattern {
         this.patternShiftName = patternShiftName == null ? null : patternShiftName.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getRegularCycle() {

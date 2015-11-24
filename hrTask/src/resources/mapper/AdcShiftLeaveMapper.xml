@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftLeave" >
     <id column="XID" property="xid" jdbcType="BIGINT" />
     <result column="ADC_DATE" property="adcDate" jdbcType="TIMESTAMP" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="ADC_ID" property="adcId" jdbcType="VARCHAR" />
     <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
@@ -117,7 +117,7 @@
       REQUESTID, SOURCE_TYPE, STATE, 
       OPERATOR, OPERATE_TIME, REMARK
       )
-    values (#{xid,jdbcType=BIGINT}, #{adcDate,jdbcType=TIMESTAMP}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{xid,jdbcType=BIGINT}, #{adcDate,jdbcType=TIMESTAMP}, #{deptid,jdbcType=BIGINT}, 
       #{empid,jdbcType=BIGINT}, #{adcId,jdbcType=VARCHAR}, #{shiftId,jdbcType=VARCHAR}, 
       #{additionInfo,jdbcType=VARCHAR}, #{affDays,jdbcType=DOUBLE}, #{affHours,jdbcType=DOUBLE}, 
       #{requestid,jdbcType=BIGINT}, #{sourceType,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
@@ -181,7 +181,7 @@
         #{adcDate,jdbcType=TIMESTAMP},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         #{empid,jdbcType=BIGINT},
@@ -237,7 +237,7 @@
         ADC_DATE = #{record.adcDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.empid != null" >
         EMPID = #{record.empid,jdbcType=BIGINT},
@@ -284,7 +284,7 @@
     update adc_shift_leave
     set XID = #{record.xid,jdbcType=BIGINT},
       ADC_DATE = #{record.adcDate,jdbcType=TIMESTAMP},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       EMPID = #{record.empid,jdbcType=BIGINT},
       ADC_ID = #{record.adcId,jdbcType=VARCHAR},
       SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
@@ -308,7 +308,7 @@
         ADC_DATE = #{adcDate,jdbcType=TIMESTAMP},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         EMPID = #{empid,jdbcType=BIGINT},
@@ -352,7 +352,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftLeave" >
     update adc_shift_leave
     set ADC_DATE = #{adcDate,jdbcType=TIMESTAMP},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       EMPID = #{empid,jdbcType=BIGINT},
       ADC_ID = #{adcId,jdbcType=VARCHAR},
       SHIFT_ID = #{shiftId,jdbcType=VARCHAR},

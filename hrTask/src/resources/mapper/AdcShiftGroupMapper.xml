@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftGroup" >
     <id column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
     <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="Enabled" property="enabled" jdbcType="VARCHAR" />
     <result column="Remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
@@ -102,7 +102,7 @@
   <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcShiftGroup" >
     insert into adc_shift_group (GROUP_ID, GROUP_NAME, DEPTID, 
       Enabled, Remark)
-    values (#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{enabled,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcShiftGroup" >
@@ -132,7 +132,7 @@
         #{groupName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="enabled != null" >
         #{enabled,jdbcType=VARCHAR},
@@ -158,7 +158,7 @@
         GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.enabled != null" >
         Enabled = #{record.enabled,jdbcType=VARCHAR},
@@ -175,7 +175,7 @@
     update adc_shift_group
     set GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
       GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       Enabled = #{record.enabled,jdbcType=VARCHAR},
       Remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -189,7 +189,7 @@
         GROUP_NAME = #{groupName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="enabled != null" >
         Enabled = #{enabled,jdbcType=VARCHAR},
@@ -203,7 +203,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftGroup" >
     update adc_shift_group
     set GROUP_NAME = #{groupName,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       Enabled = #{enabled,jdbcType=VARCHAR},
       Remark = #{remark,jdbcType=VARCHAR}
     where GROUP_ID = #{groupId,jdbcType=VARCHAR}

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftMeals" >
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="MEALS_DATE" property="mealsDate" jdbcType="DATE" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="ROOM_ID" property="roomId" jdbcType="VARCHAR" />
     <result column="MEALS_TYPE" property="mealsType" jdbcType="VARCHAR" />
@@ -105,7 +105,7 @@
     insert into adc_shift_meals (ID, MEALS_DATE, DEPTID, 
       EMPID, ROOM_ID, MEALS_TYPE, 
       MEALS_TIMES)
-    values (#{id,jdbcType=BIGINT}, #{mealsDate,jdbcType=DATE}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{mealsDate,jdbcType=DATE}, #{deptid,jdbcType=BIGINT}, 
       #{empid,jdbcType=BIGINT}, #{roomId,jdbcType=VARCHAR}, #{mealsType,jdbcType=VARCHAR}, 
       #{mealsTimes,jdbcType=INTEGER})
   </insert>
@@ -142,7 +142,7 @@
         #{mealsDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         #{empid,jdbcType=BIGINT},
@@ -174,7 +174,7 @@
         MEALS_DATE = #{record.mealsDate,jdbcType=DATE},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.empid != null" >
         EMPID = #{record.empid,jdbcType=BIGINT},
@@ -197,7 +197,7 @@
     update adc_shift_meals
     set ID = #{record.id,jdbcType=BIGINT},
       MEALS_DATE = #{record.mealsDate,jdbcType=DATE},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       EMPID = #{record.empid,jdbcType=BIGINT},
       ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
       MEALS_TYPE = #{record.mealsType,jdbcType=VARCHAR},
@@ -213,7 +213,7 @@
         MEALS_DATE = #{mealsDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         EMPID = #{empid,jdbcType=BIGINT},
@@ -233,7 +233,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftMeals" >
     update adc_shift_meals
     set MEALS_DATE = #{mealsDate,jdbcType=DATE},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       EMPID = #{empid,jdbcType=BIGINT},
       ROOM_ID = #{roomId,jdbcType=VARCHAR},
       MEALS_TYPE = #{mealsType,jdbcType=VARCHAR},

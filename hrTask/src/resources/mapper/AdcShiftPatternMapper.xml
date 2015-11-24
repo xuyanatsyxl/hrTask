@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftPattern" >
     <id column="PATTERN_ID" property="patternId" jdbcType="VARCHAR" />
     <result column="PATTERN_SHIFT_NAME" property="patternShiftName" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="REGULAR_CYCLE" property="regularCycle" jdbcType="VARCHAR" />
     <result column="REGULAR_CYCLE_UNIT" property="regularCycleUnit" jdbcType="VARCHAR" />
     <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
@@ -109,7 +109,7 @@
       REGULAR_CYCLE, REGULAR_CYCLE_UNIT, OPERATOR, 
       OPERATE_TIME, ENABLED, REMARK
       )
-    values (#{patternId,jdbcType=VARCHAR}, #{patternShiftName,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{patternId,jdbcType=VARCHAR}, #{patternShiftName,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{regularCycle,jdbcType=VARCHAR}, #{regularCycleUnit,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
@@ -153,7 +153,7 @@
         #{patternShiftName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="regularCycle != null" >
         #{regularCycle,jdbcType=VARCHAR},
@@ -191,7 +191,7 @@
         PATTERN_SHIFT_NAME = #{record.patternShiftName,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.regularCycle != null" >
         REGULAR_CYCLE = #{record.regularCycle,jdbcType=VARCHAR},
@@ -220,7 +220,7 @@
     update adc_shift_pattern
     set PATTERN_ID = #{record.patternId,jdbcType=VARCHAR},
       PATTERN_SHIFT_NAME = #{record.patternShiftName,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       REGULAR_CYCLE = #{record.regularCycle,jdbcType=VARCHAR},
       REGULAR_CYCLE_UNIT = #{record.regularCycleUnit,jdbcType=VARCHAR},
       OPERATOR = #{record.operator,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
         PATTERN_SHIFT_NAME = #{patternShiftName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="regularCycle != null" >
         REGULAR_CYCLE = #{regularCycle,jdbcType=VARCHAR},
@@ -264,7 +264,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftPattern" >
     update adc_shift_pattern
     set PATTERN_SHIFT_NAME = #{patternShiftName,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       REGULAR_CYCLE = #{regularCycle,jdbcType=VARCHAR},
       REGULAR_CYCLE_UNIT = #{regularCycleUnit,jdbcType=VARCHAR},
       OPERATOR = #{operator,jdbcType=VARCHAR},

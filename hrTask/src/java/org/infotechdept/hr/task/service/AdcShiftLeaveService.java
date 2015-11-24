@@ -98,45 +98,6 @@ public class AdcShiftLeaveService {
 	private AdcShiftUtils adcShiftUtils;
 	
 	/**
-	 * 根据人员id获得应该请假的食堂=
-	 */
-	private String getLeaveDinnerRoomIdByEmpid(Long empid, String deptidStr){
-		AdcDinnerRoomUnitExample unitExample = new AdcDinnerRoomUnitExample();
-		
-		/**
-		 * 查询的顺序是：先个人，再分组，最后是所在部门
-		 */
-		unitExample.createCriteria().andEmpidEqualTo(empid);
-		List<AdcDinnerRoomUnit> items = adcDinnerRoomUnitMapper.selectByExample(unitExample);
-		if (items.size() > 0){
-			return items.get(0).getRoomId();
-		}
-		
-		AdcShiftGroupEmplExample groupEmplExample = new AdcShiftGroupEmplExample();
-		groupEmplExample.createCriteria().andEmpidEqualTo(empid);
-		List<AdcShiftGroupEmpl> groupEmplItems = adcShiftGroupEmplMapper.selectByExample(groupEmplExample);
-		if (groupEmplItems.size() > 0){
-			String groupId = groupEmplItems.get(0).getGroupId();
-			unitExample.clear();
-			unitExample.createCriteria().andGroupIdEqualTo(groupId);
-			items.clear();
-			items = adcDinnerRoomUnitMapper.selectByExample(unitExample);
-			if (items.size() > 0){
-				return items.get(0).getRoomId();
-			}
-		}
-		
-		unitExample.clear();
-		unitExample.createCriteria().andDeptidEqualTo(deptidStr);
-		items.clear();
-		items = adcDinnerRoomUnitMapper.selectByExample(unitExample);
-		if (items.size() > 0){
-			return items.get(0).getRoomId();
-		}
-		return null;
-	}
-
-	/**
 	 * 根据OA处理类型转换成考勤类型
 	 * 
 	 * @param busCode
@@ -159,7 +120,7 @@ public class AdcShiftLeaveService {
 	 * @param empid
 	 * @return
 	 */
-	private String getDeptidByEmpid(Long empid) {
+	private Long getDeptidByEmpid(Long empid) {
 		DeptemplExample example = new DeptemplExample();
 		example.createCriteria().andEmpidEqualTo(empid);
 		List<Deptempl> records = deptemplMapper.selectByExample(example);
@@ -366,13 +327,13 @@ public class AdcShiftLeaveService {
 		Date curDate = new Date();
 		while (tmpDate.getTime() <= dateEnd.getTime()) {
 			for (Long empid : empList) {
-				String deptidStr = getDeptidByEmpid(empid);
+				Long deptid = getDeptidByEmpid(empid);
 				
 				AdcShiftLeave record = new AdcShiftLeave();
 				String adcId = attendType.getTypeId();
 				record.setAdcDate(tmpDate);
 				record.setEmpid(empid);
-				record.setDeptid(deptidStr);
+				record.setDeptid(deptid);
 				record.setAdcId(adcId);
 				record.setAdditionInfo(record.getRemark());
 				record.setRequestid(rec.getRequestid());

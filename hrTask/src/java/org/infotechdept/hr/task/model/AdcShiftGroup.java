@@ -5,7 +5,7 @@ public class AdcShiftGroup {
 
     private String groupName;
 
-    private String deptid;
+    private Long deptid;
 
     private String enabled;
 
@@ -27,12 +27,12 @@ public class AdcShiftGroup {
         this.groupName = groupName == null ? null : groupName.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getEnabled() {

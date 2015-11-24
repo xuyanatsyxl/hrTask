@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.infotechdept.hr.task.dao.EmployeeMapper" >
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.Employee" >
-    <id column="EMPID" property="empid" jdbcType="INTEGER" />
+    <id column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="CODE" property="code" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="SEX" property="sex" jdbcType="VARCHAR" />
@@ -88,15 +88,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from employee
-    where EMPID = #{empid,jdbcType=INTEGER}
+    where EMPID = #{empid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from employee
-    where EMPID = #{empid,jdbcType=INTEGER}
+    where EMPID = #{empid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.EmployeeExample" >
     delete from employee
@@ -109,7 +109,7 @@
       SEX, CARD, BIRTHDAY, 
       IDCARD, HIREDATE, REMARK, 
       DQZT)
-    values (#{empid,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{empid,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{card,jdbcType=VARCHAR}, #{birthday,jdbcType=BIGINT}, 
       #{idcard,jdbcType=VARCHAR}, #{hiredate,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
       #{dqzt,jdbcType=VARCHAR})
@@ -150,7 +150,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="empid != null" >
-        #{empid,jdbcType=INTEGER},
+        #{empid,jdbcType=BIGINT},
       </if>
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
@@ -191,7 +191,7 @@
     update employee
     <set >
       <if test="record.empid != null" >
-        EMPID = #{record.empid,jdbcType=INTEGER},
+        EMPID = #{record.empid,jdbcType=BIGINT},
       </if>
       <if test="record.code != null" >
         CODE = #{record.code,jdbcType=VARCHAR},
@@ -227,7 +227,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update employee
-    set EMPID = #{record.empid,jdbcType=INTEGER},
+    set EMPID = #{record.empid,jdbcType=BIGINT},
       CODE = #{record.code,jdbcType=VARCHAR},
       NAME = #{record.name,jdbcType=VARCHAR},
       SEX = #{record.sex,jdbcType=VARCHAR},
@@ -272,7 +272,7 @@
         DQZT = #{dqzt,jdbcType=VARCHAR},
       </if>
     </set>
-    where EMPID = #{empid,jdbcType=INTEGER}
+    where EMPID = #{empid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.Employee" >
     update employee
@@ -285,6 +285,6 @@
       HIREDATE = #{hiredate,jdbcType=BIGINT},
       REMARK = #{remark,jdbcType=VARCHAR},
       DQZT = #{dqzt,jdbcType=VARCHAR}
-    where EMPID = #{empid,jdbcType=INTEGER}
+    where EMPID = #{empid,jdbcType=BIGINT}
   </update>
 </mapper>

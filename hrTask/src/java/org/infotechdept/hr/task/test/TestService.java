@@ -88,7 +88,8 @@ public class TestService {
 		boolean isRight = HrUtils.isFloat(Double.valueOf(1.1555).floatValue());
 		System.out.println(isRight);
 	}
-
+	
+	@Test
 	public void testMakeException() {
 		engineer.makeKqReport();
 	}
@@ -139,7 +140,7 @@ public class TestService {
 		engineer.makeNextDayScheduling();
 	}
 	
-	@Test
+
 	public void testHr(){
 		Map paramMap = new HashMap();
 		paramMap.put("date", HrUtils.getCurDate("yyyy-MM-dd"));

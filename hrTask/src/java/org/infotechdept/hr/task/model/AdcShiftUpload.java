@@ -5,7 +5,7 @@ import java.util.Date;
 public class AdcShiftUpload {
     private String upfileid;
 
-    private String deptid;
+    private Long deptid;
 
     private String title;
 
@@ -29,12 +29,12 @@ public class AdcShiftUpload {
         this.upfileid = upfileid == null ? null : upfileid.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getTitle() {

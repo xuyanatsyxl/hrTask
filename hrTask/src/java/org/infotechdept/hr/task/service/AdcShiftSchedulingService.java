@@ -95,7 +95,7 @@ public class AdcShiftSchedulingService {
 	 * @param dateMap
 	 * @return
 	 */
-	private AdcShiftLeave getAdcShiftLeaveByInfo(Long empid, String deptid, Date pDate) {
+	private AdcShiftLeave getAdcShiftLeaveByInfo(Long empid, Long deptid, Date pDate) {
 		Map resultMap = new HashMap();
 		AdcShiftLeaveExample leaveExp = new AdcShiftLeaveExample();
 		leaveExp.createCriteria().andAdcDateEqualTo(pDate).andDeptidEqualTo(deptid).andEmpidEqualTo(empid);
@@ -311,7 +311,7 @@ public class AdcShiftSchedulingService {
 			adcShiftScheduling.setAdcId((String)dateMap.get("adc_id"));
 						
 			// 从请假列表里取出当天是否有请假记录
-			AdcShiftLeave resultMap = getAdcShiftLeaveByInfo(Long.valueOf(emp.getEmpid()), emp.getDeptid(), tmpDate);
+			AdcShiftLeave resultMap = getAdcShiftLeaveByInfo(emp.getEmpid(), emp.getDeptid(), tmpDate);
 			if (HrUtils.isNotEmpty(resultMap)) {
 				if (HrUtils.isNotEmpty(resultMap.getShiftId())){
 					adcShiftScheduling.setShiftId(resultMap.getShiftId());
@@ -357,10 +357,10 @@ public class AdcShiftSchedulingService {
 	 * @param date
 	 * @return
 	 */
-	private int getPriorityFromScheduling(String deptid, Long empid, Date date) {
+	private int getPriorityFromScheduling(Long deptid, Long empid, Date date) {
 		AdcShiftSchedulingExample example = new AdcShiftSchedulingExample();
 		example.createCriteria().andEmpidEqualTo(Long.valueOf(empid))
-				.andSchDateEqualTo(date).andDeptidEqualTo(deptid);
+				.andSchDateEqualTo(date).anddeptid (deptid);
 		List<AdcShiftScheduling> lists = adcShiftSchedulingMapper
 				.selectByExample(example);
 		if (lists.size() == 0) {

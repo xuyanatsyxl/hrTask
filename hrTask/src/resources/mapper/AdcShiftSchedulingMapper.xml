@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftScheduling" >
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="SCH_DATE" property="schDate" jdbcType="DATE" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
@@ -119,7 +119,7 @@
       OFF_TIME, ACTUAL_OFF_TIME, ADC_ID, 
       RECORD_TYPE, PRIORITY, COUNT, 
       SHIFT_SYMBOL, TM)
-    values (#{id,jdbcType=BIGINT}, #{schDate,jdbcType=DATE}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{schDate,jdbcType=DATE}, #{deptid,jdbcType=BIGINT}, 
       #{groupId,jdbcType=VARCHAR}, #{empid,jdbcType=BIGINT}, #{shiftId,jdbcType=VARCHAR}, 
       #{recId,jdbcType=BIGINT}, #{workTime,jdbcType=TIMESTAMP}, #{actualWorkTime,jdbcType=TIMESTAMP}, 
       #{offTime,jdbcType=TIMESTAMP}, #{actualOffTime,jdbcType=TIMESTAMP}, #{adcId,jdbcType=VARCHAR}, 
@@ -189,7 +189,7 @@
         #{schDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         #{groupId,jdbcType=VARCHAR},
@@ -251,7 +251,7 @@
         SCH_DATE = #{record.schDate,jdbcType=DATE},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.groupId != null" >
         GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
@@ -304,7 +304,7 @@
     update adc_shift_scheduling
     set ID = #{record.id,jdbcType=BIGINT},
       SCH_DATE = #{record.schDate,jdbcType=DATE},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
       EMPID = #{record.empid,jdbcType=BIGINT},
       SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
@@ -330,7 +330,7 @@
         SCH_DATE = #{schDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="groupId != null" >
         GROUP_ID = #{groupId,jdbcType=VARCHAR},
@@ -380,7 +380,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftScheduling" >
     update adc_shift_scheduling
     set SCH_DATE = #{schDate,jdbcType=DATE},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       GROUP_ID = #{groupId,jdbcType=VARCHAR},
       EMPID = #{empid,jdbcType=BIGINT},
       SHIFT_ID = #{shiftId,jdbcType=VARCHAR},

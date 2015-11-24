@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcDinnerRoom" >
     <id column="ROOM_ID" property="roomId" jdbcType="VARCHAR" />
     <result column="ROOM_NAME" property="roomName" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -101,7 +101,7 @@
   <insert id="insert" parameterType="org.infotechdept.hr.task.model.AdcDinnerRoom" >
     insert into adc_dinner_room (ROOM_ID, ROOM_NAME, DEPTID, 
       REMARK)
-    values (#{roomId,jdbcType=VARCHAR}, #{roomName,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{roomId,jdbcType=VARCHAR}, #{roomName,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.AdcDinnerRoom" >
@@ -128,7 +128,7 @@
         #{roomName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -151,7 +151,7 @@
         ROOM_NAME = #{record.roomName,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.remark != null" >
         REMARK = #{record.remark,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
     update adc_dinner_room
     set ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
       ROOM_NAME = #{record.roomName,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       REMARK = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -178,7 +178,7 @@
         ROOM_NAME = #{roomName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="remark != null" >
         REMARK = #{remark,jdbcType=VARCHAR},
@@ -189,7 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcDinnerRoom" >
     update adc_dinner_room
     set ROOM_NAME = #{roomName,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       REMARK = #{remark,jdbcType=VARCHAR}
     where ROOM_ID = #{roomId,jdbcType=VARCHAR}
   </update>

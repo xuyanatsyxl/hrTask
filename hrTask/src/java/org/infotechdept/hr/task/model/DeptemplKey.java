@@ -3,7 +3,7 @@ package org.infotechdept.hr.task.model;
 public class DeptemplKey {
     private Long empid;
 
-    private String deptid;
+    private Long deptid;
 
     public Long getEmpid() {
         return empid;
@@ -13,11 +13,11 @@ public class DeptemplKey {
         this.empid = empid;
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 }

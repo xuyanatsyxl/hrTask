@@ -39,4 +39,6 @@
         select max(deptid) as deptid from eadept where PARENTID = #{deptid, jdbcType=VARCHAR}
     </select>
     
+    <!-- 取部门人员信息 -->
+    
 </mapper>

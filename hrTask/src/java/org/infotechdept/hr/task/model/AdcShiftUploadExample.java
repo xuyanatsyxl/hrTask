@@ -185,62 +185,52 @@ public class AdcShiftUploadExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeptidEqualTo(String value) {
+        public Criteria andDeptidEqualTo(Long value) {
             addCriterion("deptid =", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidNotEqualTo(String value) {
+        public Criteria andDeptidNotEqualTo(Long value) {
             addCriterion("deptid <>", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidGreaterThan(String value) {
+        public Criteria andDeptidGreaterThan(Long value) {
             addCriterion("deptid >", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidGreaterThanOrEqualTo(String value) {
+        public Criteria andDeptidGreaterThanOrEqualTo(Long value) {
             addCriterion("deptid >=", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidLessThan(String value) {
+        public Criteria andDeptidLessThan(Long value) {
             addCriterion("deptid <", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidLessThanOrEqualTo(String value) {
+        public Criteria andDeptidLessThanOrEqualTo(Long value) {
             addCriterion("deptid <=", value, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidLike(String value) {
-            addCriterion("deptid like", value, "deptid");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeptidNotLike(String value) {
-            addCriterion("deptid not like", value, "deptid");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeptidIn(List<String> values) {
+        public Criteria andDeptidIn(List<Long> values) {
             addCriterion("deptid in", values, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidNotIn(List<String> values) {
+        public Criteria andDeptidNotIn(List<Long> values) {
             addCriterion("deptid not in", values, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidBetween(String value1, String value2) {
+        public Criteria andDeptidBetween(Long value1, Long value2) {
             addCriterion("deptid between", value1, value2, "deptid");
             return (Criteria) this;
         }
 
-        public Criteria andDeptidNotBetween(String value1, String value2) {
+        public Criteria andDeptidNotBetween(Long value1, Long value2) {
             addCriterion("deptid not between", value1, value2, "deptid");
             return (Criteria) this;
         }

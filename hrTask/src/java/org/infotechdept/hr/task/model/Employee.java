@@ -1,7 +1,7 @@
 package org.infotechdept.hr.task.model;
 
 public class Employee {
-    private Integer empid;
+    private Long empid;
 
     private String code;
 
@@ -21,11 +21,11 @@ public class Employee {
 
     private String dqzt;
 
-    public Integer getEmpid() {
+    public Long getEmpid() {
         return empid;
     }
 
-    public void setEmpid(Integer empid) {
+    public void setEmpid(Long empid) {
         this.empid = empid;
     }
 

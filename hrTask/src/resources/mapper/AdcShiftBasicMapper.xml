@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftBasic" >
     <id column="SHIFT_ID" property="shiftId" jdbcType="VARCHAR" />
     <result column="BASIC_SHIFT_NAME" property="basicShiftName" jdbcType="VARCHAR" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="WORK_TIME" property="workTime" jdbcType="VARCHAR" />
     <result column="OFF_TIME" property="offTime" jdbcType="VARCHAR" />
     <result column="SHIFT_TYPE" property="shiftType" jdbcType="VARCHAR" />
@@ -114,7 +114,7 @@
       ADC_ID, OPERATOR, OPERATE_TIME, 
       INTERVAL_START_TIME, INTERVAL_END_TIME, REMARK, 
       ENABLED)
-    values (#{shiftId,jdbcType=VARCHAR}, #{basicShiftName,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{shiftId,jdbcType=VARCHAR}, #{basicShiftName,jdbcType=VARCHAR}, #{deptid,jdbcType=BIGINT}, 
       #{workTime,jdbcType=VARCHAR}, #{offTime,jdbcType=VARCHAR}, #{shiftType,jdbcType=VARCHAR}, 
       #{adcId,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
       #{intervalStartTime,jdbcType=VARCHAR}, #{intervalEndTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -171,7 +171,7 @@
         #{basicShiftName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="workTime != null" >
         #{workTime,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
         BASIC_SHIFT_NAME = #{record.basicShiftName,jdbcType=VARCHAR},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.workTime != null" >
         WORK_TIME = #{record.workTime,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
     update adc_shift_basic
     set SHIFT_ID = #{record.shiftId,jdbcType=VARCHAR},
       BASIC_SHIFT_NAME = #{record.basicShiftName,jdbcType=VARCHAR},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       WORK_TIME = #{record.workTime,jdbcType=VARCHAR},
       OFF_TIME = #{record.offTime,jdbcType=VARCHAR},
       SHIFT_TYPE = #{record.shiftType,jdbcType=VARCHAR},
@@ -284,7 +284,7 @@
         BASIC_SHIFT_NAME = #{basicShiftName,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="workTime != null" >
         WORK_TIME = #{workTime,jdbcType=VARCHAR},
@@ -322,7 +322,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftBasic" >
     update adc_shift_basic
     set BASIC_SHIFT_NAME = #{basicShiftName,jdbcType=VARCHAR},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       WORK_TIME = #{workTime,jdbcType=VARCHAR},
       OFF_TIME = #{offTime,jdbcType=VARCHAR},
       SHIFT_TYPE = #{shiftType,jdbcType=VARCHAR},

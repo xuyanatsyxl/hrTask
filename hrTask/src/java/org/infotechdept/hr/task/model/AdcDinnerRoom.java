@@ -5,7 +5,7 @@ public class AdcDinnerRoom {
 
     private String roomName;
 
-    private String deptid;
+    private Long deptid;
 
     private String remark;
 
@@ -25,12 +25,12 @@ public class AdcDinnerRoom {
         this.roomName = roomName == null ? null : roomName.trim();
     }
 
-    public String getDeptid() {
+    public Long getDeptid() {
         return deptid;
     }
 
-    public void setDeptid(String deptid) {
-        this.deptid = deptid == null ? null : deptid.trim();
+    public void setDeptid(Long deptid) {
+        this.deptid = deptid;
     }
 
     public String getRemark() {
