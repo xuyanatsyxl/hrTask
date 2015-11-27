@@ -4,8 +4,6 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_3.dtd">
 <generatorConfiguration>
 	<classPathEntry location="../../../WebContent/WEB-INF/lib/mysql-connector-java-5.1.32-bin.JAR" />
-
-
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 
 		<commentGenerator>

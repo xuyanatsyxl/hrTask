@@ -14,24 +14,28 @@
     </select>
 
     <!-- 插入一条部门记录 -->
-    <insert id="saveDeptItem" parameterType="Map" flushCache="true">
-        insert into EADEPT(deptid, deptname, parentid, sortno, enabled, leaf)
-         values(#{deptid, jdbcType=VARCHAR}, #{deptname, jdbcType=VARCHAR}, #{parentid, jdbcType=VARCHAR}, #{sortno, jdbcType=INTEGER},
+    <insert id="saveDeptItem" parameterType="Map" flushCache="true" 
+             useGeneratedKeys="true" keyProperty="deptid">
+        insert into EADEPT(cascadeid, deptname, parentid, sortno, enabled, leaf)
+         values(#{cascadeid, jdbcType=VARCHAR}, #{deptname, jdbcType=VARCHAR}, #{parentid, jdbcType=INTEGER}, #{sortno, jdbcType=INTEGER},
          #{enabled, jdbcType=VARCHAR}, #{leaf, jdbcType=VARCHAR})
     </insert>
     
     <!-- 根据条件查询部门 -->
-    <select id="queryDeptidByParam" parameterType="Map" resultType="java.lang.String">
-        select DEPTID from EADEPT where enabled="1"
+    <select id="queryDeptidByParam" parameterType="Map" resultType="HashMap">
+        select deptid, cascadeid from EADEPT where enabled="1"
             <if test = "deptname != null and deptid !=''">
                 and DEPTNAME=#{deptname, jdbcType=VARCHAR}
             </if>
              <if test = "level != null">
-               	and char_length(deptid)=#{level, jdbcType=INTEGER}
+               	and char_length(cascadeid)=#{level, jdbcType=INTEGER}
             </if> 
-            <if test = "deptid != null and deptid != ''">
-               	and deptid like #{deptid, jdbcType=VARCHAR}
-            </if>          
+            <if test = "cascadeid != null and cascadeid != 'null%'">
+               	and cascadeid like #{cascadeid, jdbcType=VARCHAR}
+            </if>  
+            <if test = "parentid != null and parentid != ''">
+               	and parentid = #{parentid, jdbcType=INTEGER}
+            </if>            
     </select>
     
     <!-- 取最大号 -->
@@ -39,28 +43,21 @@
         select max(deptid) as deptid from eadept where PARENTID = #{deptid, jdbcType=VARCHAR}
     </select>
     
-    <!-- 取部门人员信息 -->
-    <select id="queryDeptEmplForManage" parameterType="Map" resultType="HashMap">
-    	select a.empid, b.deptid, b.cascadeid 
-		  from deptempl a, eadept b, employee c
-         where a.deptid=b.deptid and a.empid=c.empid
-           and c.dqzt=2
-          <if test="cascadeid != null">
-              and b.cascadeid like #{cascadeid, jdbcType=VARCHAR}
-          </if>
-          <if test="empid != null">
-              and a.empid = #{empid, jdbcType=BIGINT}
-          </if>
-          <if test="emps != null">
-              and a.empid = #{empid, jdbcType=INTEGER}
-          </if>
-          <if test="empList != null">
-          	and a.empid in 
-            <foreach item="item" index="index" collection="list"
-      			open="(" separator="," close=")">
-       				#{item}
-  			</foreach>
-  		 </if>
-    </select>
-
+    <!-- 获取最大部门子节点编号: 对应新部门架构的方法-->
+	<select id="getMaxSubDeptIdNew" parameterType="Map" resultType="java.lang.String">
+		SELECT MAX(cascadeid)
+		  FROM eadept
+		 WHERE parentid = #{parentid, jdbcType=INTEGER} 
+		   and cascadeid like #{cascadeid, jdbcType=VARCHAR}
+	</select>
+	
+    <!-- 根据deptid查询cascadeid -->
+	<select id="queryCascadeidByDeptid" parameterType="java.lang.Long" resultType="java.lang.String">
+		select cascadeid from eadept where deptid = #{deptid, jdbcType=INTEGER} 
+	</select>
+	
+	<!-- 根据cascadeid查询deptid -->
+	<select id="queryDetpidByCascadeid" parameterType="java.lang.String" resultType="java.lang.Long">
+		select deptid from eadept where cascadeid = #{cascadeid, jdbcType=VARCHAR} 
+	</select>
 </mapper>

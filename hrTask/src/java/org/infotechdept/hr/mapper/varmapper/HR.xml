@@ -12,4 +12,18 @@
   		     </if>
   		 </where>   
 	</select>
+	
+	<!-- 查询HR系统人员信息 -->
+	<select id="queryEmpinfo" parameterType="HashMap" resultType="HashMap">
+		select C_EMPLOYEEID as empid, C_CODE as code, C_NAME as name, C_UNITNAME as unitname, C_JOBNAME as jobname, C_DYZBZW as dyzbzw
+		  from TB_INF_EMPLOYEE
+  		 <where>
+  		     <if test="empid != null">
+ 				and C_EMPLOYEEID = #{empid, jdbcType=INTEGER}  		         
+  		     </if>
+  		     <if test="code != null">
+ 				and C_CODE = #{code, jdbcType=VARCHAR}  		         
+  		     </if>
+  		 </where>   
+	</select>
 </mapper>

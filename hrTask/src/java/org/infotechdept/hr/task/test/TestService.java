@@ -16,11 +16,14 @@ import org.infotechdept.hr.task.dao.AdcShiftExceptionMapper;
 import org.infotechdept.hr.task.dao.AdcShiftMealsMapper;
 import org.infotechdept.hr.task.dao.AdcShiftRecordLogsMapper;
 import org.infotechdept.hr.task.dao.AdcShiftRecordMapper;
+import org.infotechdept.hr.task.dao.DeptemplMapper;
 import org.infotechdept.hr.task.dao.OaIntfMapper;
 import org.infotechdept.hr.task.hr.service.impl.HrLeaveServiceImpl;
 import org.infotechdept.hr.task.model.AdcShiftApply;
 import org.infotechdept.hr.task.model.AdcShiftRecord;
 import org.infotechdept.hr.task.model.AdcShiftRecordExample;
+import org.infotechdept.hr.task.model.Deptempl;
+import org.infotechdept.hr.task.model.DeptemplExample;
 import org.infotechdept.hr.task.model.OaIntf;
 import org.infotechdept.hr.task.model.OaIntfExample;
 import org.infotechdept.hr.task.scheduler.Engineer;
@@ -61,20 +64,22 @@ public class TestService {
 	private Engineer engineer;
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
+
 	@Resource(name = "sqlSession.hr")
-	private SqlSessionTemplate sqlSessionHr; 
-	
+	private SqlSessionTemplate sqlSessionHr;
+
 	@Autowired
 	private AdcShiftRecordLogsMapper adcShiftRecordLogsMapper;
-	
+
 	@Autowired
 	private AdcShiftStafferService adcShiftStafferService;
-	
+
 	@Autowired
 	private AdcShiftUtils adcShiftUtils;
 	@Autowired
 	private HrLeaveServiceImpl hrLeaveServiceImpl;
+	@Autowired
+	private DeptemplMapper deptemplMapper;
 
 	public void test() throws ParseException {
 		OaIntfExample oaIntfExample = new OaIntfExample();
@@ -90,7 +95,7 @@ public class TestService {
 		boolean isRight = HrUtils.isFloat(Double.valueOf(1.1555).floatValue());
 		System.out.println(isRight);
 	}
-	
+
 	public void testMakeException() {
 		engineer.makeKqReport();
 	}
@@ -100,66 +105,91 @@ public class TestService {
 		example.createCriteria().andClbzNotEqualTo(new String("2"));
 		List<OaIntf> items = oaIntfMapper.selectByExample(example);
 		for (OaIntf rec : items) {
-				int i = adcShiftLeaveService.transOaIntfRecord(rec);
-				if (i > 0) {
-					rec.setClbz(new String("2"));
-				}
-				oaIntfMapper.updateByPrimaryKey(rec);
+			int i = adcShiftLeaveService.transOaIntfRecord(rec);
+			if (i > 0) {
+				rec.setClbz(new String("2"));
+			}
+			oaIntfMapper.updateByPrimaryKey(rec);
 
 		}
 	}
-	
 
-	public void testStroeProcedure(){
+	public void testStroeProcedure() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		String tmpDateStr = HrUtils.date2String(calendar.getTime(), "yyyyMMdd");
 		tmpDateStr += "000000";
-		sqlSession.update("AdcSysProc.hr_make_kq_report", Long.valueOf(tmpDateStr));
+		sqlSession.update("AdcSysProc.hr_make_kq_report",
+				Long.valueOf(tmpDateStr));
 	}
-	
-	
-	public void testMakeNextDayScheduling(){
+
+	public void testMakeNextDayScheduling() {
 		engineer.makeNextDayScheduling();
 	}
-	
 
-	public void testHr(){
+	public void testHr() {
 		Map paramMap = new HashMap();
 		paramMap.put("date", HrUtils.getCurDate("yyyy-MM-dd"));
-		List<Map> items = sqlSessionHr.selectList("HR.queryTbPerStafferrcordForTrans", paramMap);
-		if (items.size() > 0){
-			for(Map dataMap : items){
-				try{
+		List<Map> items = sqlSessionHr.selectList(
+				"HR.queryTbPerStafferrcordForTrans", paramMap);
+		if (items.size() > 0) {
+			for (Map dataMap : items) {
+				try {
 					adcShiftStafferService.invokeBeanMethod(dataMap);
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
-	public void testAdcShiftLeave(){
+
+	public void testAdcShiftLeave() {
 		engineer.procAdcShiftLeave();
 	}
-	
+
 	/**
 	 * 就餐数据测试
 	 */
 
-	public void testAdcShiftMeals(){
+	public void testAdcShiftMeals() {
 		engineer.procOaMealsData();
 	}
-	
+
 	/**
 	 * 测试WEBSERVICE
-	 * @throws RemoteException 
+	 * 
+	 * @throws RemoteException
 	 */
-	@Test
-	public void testwebsrv() throws RemoteException{
+
+	public void testwebsrv() throws RemoteException {
 		String dateStr = HrUtils.date2String(new Date(), "yyyyMMdd");
 		org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingService srv = new AdcShiftSchedulingServiceProxy();
 		srv.makeAdcShiftSchedulingDay(dateStr);
+	}
+
+	@Test
+	public void testUpdateUnitName() {
+		DeptemplExample exp = new DeptemplExample();
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<Deptempl> items = sqlSession.selectList("User.queryEnabledZero");
+		for (Deptempl item : items) {
+			params.clear();
+			params.put("empid", item.getEmpid());
+			Map emp = sqlSessionHr.selectOne("HR.queryEmpinfo", params);
+			String deptname = (String) emp.get("UNITNAME");
+			exp.clear();
+			exp.createCriteria().andDeptidEqualTo(item.getDeptid())
+					.andEmpidEqualTo(item.getEmpid());
+			Long deptid = adcShiftUtils.getDeptidByUnitName(deptname);
+			item.setDeptname(deptname);
+			item.setDeptid(deptid);
+			try {
+				deptemplMapper.updateByExample(item, exp);
+				System.out.println(item.getEmpid() + item.getDeptname());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

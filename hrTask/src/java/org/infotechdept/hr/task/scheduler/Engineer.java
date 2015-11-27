@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingServiceProxy;
 import org.infotechdept.hr.system.HrUtils;
 import org.infotechdept.hr.task.dao.AdcShiftExceptionMapper;
 import org.infotechdept.hr.task.dao.AdcShiftLeaveMapper;
@@ -239,28 +240,12 @@ public class Engineer {
 		Date tmpDate = HrUtils.stringToDate(
 				HrUtils.date2String(cal.getTime(), "yyyy-MM-dd"), "yyyy-MM-dd",
 				"yyyy-MM-dd");
-
-		List<Map> items = sqlSession.selectList("AdcShiftSchedulingOper.queryAdcShiftApply");
-		for (Map map : items) {
-			AdcShiftRecordLogs logs = new AdcShiftRecordLogs();
-			try {
-				AdcShiftRecord record = new AdcShiftRecord();
-				HrUtils.copyProperties(map, record);
-				
-				logs.setRq(tmpDate);
-				logs.setRecId(record.getRecId());
-				logs.setBeginTime(HrUtils.getDateTime());
-
-				adcShiftSchedulingService.makeShiftByRecordForInvoke(record, tmpDate, tmpDate);
-				logs.setState("2");
-			} catch (Exception e) {
-				logs.setState("1");
-				logs.setMemo(e.getMessage());
-				e.printStackTrace();
-			} finally {
-				logs.setEndTime(HrUtils.getDateTime());
-				adcShiftRecordLogsMapper.insert(logs);
-			}
+		String dateStr = HrUtils.date2String(tmpDate, "yyyyMMdd");
+		try {
+			org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingService srv = new AdcShiftSchedulingServiceProxy();
+			srv.makeAdcShiftSchedulingDay(dateStr);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

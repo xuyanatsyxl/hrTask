@@ -53,6 +53,40 @@ public class AdcShiftUtils {
 	@Autowired
 	private EadeptMapper eadeptMapper;
 
+    /**
+     * 部门编号ID生成器(自定义)
+     * @param pParentid 菜单编号的参考编号
+     * @return
+     */
+	private String getCascadeIdGenerator(Long pParentid){
+		String parentCascadeid = (String)sqlSession.selectOne("Dept.queryCascadeidByDeptid", pParentid);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("parentid", pParentid);
+		paramMap.put("cascadeid", parentCascadeid + "%");
+		String maxSubDeptId = (String)sqlSession.selectOne("Dept.getMaxSubDeptIdNew", paramMap);
+		
+		String cascadeid = null;
+		if(maxSubDeptId == null){
+			cascadeid = "001";
+		}else{
+			int length = maxSubDeptId.length();
+			String temp = maxSubDeptId.substring(length-3, length);
+			int intDeptId = Integer.valueOf(temp).intValue() + 1;
+			if(intDeptId > 0 && intDeptId < 10){
+				cascadeid = "00" + String.valueOf(intDeptId);
+			}else if(10 <= intDeptId && intDeptId <= 99){
+				cascadeid = "0" + String.valueOf(intDeptId);
+			}else if (100 <= intDeptId && intDeptId <= 999) {
+				cascadeid = String.valueOf(intDeptId);
+			}else if(intDeptId >999){
+				log.error("生成部门编号越界了.同级兄弟节点编号为[001-999]\n请和您的系统管理员联系!");
+			}else{
+				log.error("生成部门编号发生未知错误,请和开发人员联系!");
+			}
+		}
+		return parentCascadeid + cascadeid;
+	}
+	
 	/**
 	 * 根据基本班次ID和日期，返回该天应该上下班的时间
 	 * 
@@ -116,7 +150,6 @@ public class AdcShiftUtils {
 		return null;		
 	}
 
-	
 	/**
 	 * 根据HR的UNITNAME字段取得DEPTID
 	 * 分割HR系统人员的UNITNAME字段，逐个查找部门
@@ -124,7 +157,7 @@ public class AdcShiftUtils {
 	 */
 	public Long getDeptidByUnitName(String unitName){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		Long deptidStr = null;
+		Long deptid = null;
 		String cascadeId = null;
 		String[] units = unitName.split("-");
 		int i = 0;
@@ -139,15 +172,15 @@ public class AdcShiftUtils {
 			Long tmpDeptid = null;
 			if (HrUtils.isNotEmpty(resultMap)){
 			    tmpDeptid = (Long)resultMap.get("deptid");
-			    deptidStr = tmpDeptid;
+				deptid = tmpDeptid;
 				cascadeId = (String)resultMap.get("cascadeid");
-			}else{				
+			}else{
 				paramMap.clear();
 				paramMap.put("deptname", unit);
 				if (i == 0){
 					paramMap.put("parentid", Long.valueOf("1"));
 				}else{
-					paramMap.put("parentid", deptidStr);
+					paramMap.put("parentid", deptid);
 				}
 				cascadeId = getCascadeIdGenerator((Long)paramMap.get("parentid"));
 				paramMap.put("deptid", null);
@@ -155,45 +188,11 @@ public class AdcShiftUtils {
 				paramMap.put("enabled", "1");
 				paramMap.put("leaf", "0");
 				sqlSession.insert("Dept.saveDeptItem", paramMap);
-				deptidStr = (Long)paramMap.get("deptid");
+				deptid = (Long)paramMap.get("deptid");
 			}
 			i++;
 		}
-		return deptidStr;
-	}
-	
-    /**
-     * 部门编号ID生成器(自定义)
-     * @param pParentid 菜单编号的参考编号
-     * @return
-     */
-	private String getCascadeIdGenerator(Long pParentid){
-		String parentCascadeid = (String)sqlSession.selectOne("Dept.queryCascadeidByDeptid", pParentid);
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("parentid", pParentid);
-		paramMap.put("cascadeid", parentCascadeid + "%");
-		String maxSubDeptId = (String)sqlSession.selectOne("Dept.getMaxSubDeptIdNew", paramMap);
-		
-		String cascadeid = null;
-		if(maxSubDeptId == null){
-			cascadeid = "001";
-		}else{
-			int length = maxSubDeptId.length();
-			String temp = maxSubDeptId.substring(length-3, length);
-			int intDeptId = Integer.valueOf(temp).intValue() + 1;
-			if(intDeptId > 0 && intDeptId < 10){
-				cascadeid = "00" + String.valueOf(intDeptId);
-			}else if(10 <= intDeptId && intDeptId <= 99){
-				cascadeid = "0" + String.valueOf(intDeptId);
-			}else if (100 <= intDeptId && intDeptId <= 999) {
-				cascadeid = String.valueOf(intDeptId);
-			}else if(intDeptId >999){
-				log.error("生成部门编号越界了.同级兄弟节点编号为[001-999]\n请和您的系统管理员联系!");
-			}else{
-				log.error("生成部门编号发生未知错误,请和开发人员联系!");
-			}
-		}
-		return parentCascadeid + cascadeid;
+		return deptid;
 	}
 	
 	/**

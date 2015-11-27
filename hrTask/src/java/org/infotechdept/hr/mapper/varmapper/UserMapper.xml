@@ -87,4 +87,11 @@
     <select id="queryZbzwid" parameterType="java.lang.String" resultType="INTEGER">
     	select ZWID from ZBZW where ZWMC = #{zwname, jdbcType=VARCHAR}
     </select>
+    
+    <!-- 临时添加 -->
+    <select id="queryEnabledZero" resultType="org.infotechdept.hr.task.model.Deptempl">
+    	select b.* 
+		  from employee a, deptempl b, eadept c
+		 where a.empid=b.empid and b.deptid=c.deptid and c.ENABLED='0'
+    </select>
 </mapper>
