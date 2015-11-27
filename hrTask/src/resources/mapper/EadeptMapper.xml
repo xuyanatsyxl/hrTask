@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.infotechdept.hr.task.dao.EadeptMapper" >
+  <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.Eadept" >
+    <id column="DEPTID" property="deptid" jdbcType="BIGINT" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="CASCADEID" property="cascadeid" jdbcType="VARCHAR" />
+    <result column="PARENTID" property="parentid" jdbcType="VARCHAR" />
+    <result column="CUSTOMID" property="customid" jdbcType="VARCHAR" />
+    <result column="DEPTTYPE" property="depttype" jdbcType="VARCHAR" />
+    <result column="ENABLED" property="enabled" jdbcType="VARCHAR" />
+    <result column="SORTNO" property="sortno" jdbcType="INTEGER" />
+    <result column="LEAF" property="leaf" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DEPTID, DEPTNAME, CASCADEID, PARENTID, CUSTOMID, DEPTTYPE, ENABLED, SORTNO, LEAF, 
+    REMARK
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.infotechdept.hr.task.model.EadeptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eadept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from eadept
+    where DEPTID = #{deptid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from eadept
+    where DEPTID = #{deptid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.infotechdept.hr.task.model.EadeptExample" >
+    delete from eadept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.infotechdept.hr.task.model.Eadept" >
+    insert into eadept (DEPTID, DEPTNAME, CASCADEID, 
+      PARENTID, CUSTOMID, DEPTTYPE, 
+      ENABLED, SORTNO, LEAF, 
+      REMARK)
+    values (#{deptid,jdbcType=BIGINT}, #{deptname,jdbcType=VARCHAR}, #{cascadeid,jdbcType=VARCHAR}, 
+      #{parentid,jdbcType=VARCHAR}, #{customid,jdbcType=VARCHAR}, #{depttype,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=VARCHAR}, #{sortno,jdbcType=INTEGER}, #{leaf,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.infotechdept.hr.task.model.Eadept" >
+    insert into eadept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME,
+      </if>
+      <if test="cascadeid != null" >
+        CASCADEID,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="customid != null" >
+        CUSTOMID,
+      </if>
+      <if test="depttype != null" >
+        DEPTTYPE,
+      </if>
+      <if test="enabled != null" >
+        ENABLED,
+      </if>
+      <if test="sortno != null" >
+        SORTNO,
+      </if>
+      <if test="leaf != null" >
+        LEAF,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deptid != null" >
+        #{deptid,jdbcType=BIGINT},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="cascadeid != null" >
+        #{cascadeid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="depttype != null" >
+        #{depttype,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=INTEGER},
+      </if>
+      <if test="leaf != null" >
+        #{leaf,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.infotechdept.hr.task.model.EadeptExample" resultType="java.lang.Integer" >
+    select count(*) from eadept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update eadept
+    <set >
+      <if test="record.deptid != null" >
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
+      </if>
+      <if test="record.deptname != null" >
+        DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cascadeid != null" >
+        CASCADEID = #{record.cascadeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        PARENTID = #{record.parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customid != null" >
+        CUSTOMID = #{record.customid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depttype != null" >
+        DEPTTYPE = #{record.depttype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enabled != null" >
+        ENABLED = #{record.enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortno != null" >
+        SORTNO = #{record.sortno,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaf != null" >
+        LEAF = #{record.leaf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update eadept
+    set DEPTID = #{record.deptid,jdbcType=BIGINT},
+      DEPTNAME = #{record.deptname,jdbcType=VARCHAR},
+      CASCADEID = #{record.cascadeid,jdbcType=VARCHAR},
+      PARENTID = #{record.parentid,jdbcType=VARCHAR},
+      CUSTOMID = #{record.customid,jdbcType=VARCHAR},
+      DEPTTYPE = #{record.depttype,jdbcType=VARCHAR},
+      ENABLED = #{record.enabled,jdbcType=VARCHAR},
+      SORTNO = #{record.sortno,jdbcType=INTEGER},
+      LEAF = #{record.leaf,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.infotechdept.hr.task.model.Eadept" >
+    update eadept
+    <set >
+      <if test="deptname != null" >
+        DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="cascadeid != null" >
+        CASCADEID = #{cascadeid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        CUSTOMID = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="depttype != null" >
+        DEPTTYPE = #{depttype,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        ENABLED = #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        SORTNO = #{sortno,jdbcType=INTEGER},
+      </if>
+      <if test="leaf != null" >
+        LEAF = #{leaf,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DEPTID = #{deptid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.Eadept" >
+    update eadept
+    set DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      CASCADEID = #{cascadeid,jdbcType=VARCHAR},
+      PARENTID = #{parentid,jdbcType=VARCHAR},
+      CUSTOMID = #{customid,jdbcType=VARCHAR},
+      DEPTTYPE = #{depttype,jdbcType=VARCHAR},
+      ENABLED = #{enabled,jdbcType=VARCHAR},
+      SORTNO = #{sortno,jdbcType=INTEGER},
+      LEAF = #{leaf,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where DEPTID = #{deptid,jdbcType=BIGINT}
+  </update>
+</mapper>
