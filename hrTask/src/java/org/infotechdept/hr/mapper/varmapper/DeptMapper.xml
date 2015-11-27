@@ -40,5 +40,27 @@
     </select>
     
     <!-- 取部门人员信息 -->
-    
+    <select id="queryDeptEmplForManage" parameterType="Map" resultType="HashMap">
+    	select a.empid, b.deptid, b.cascadeid 
+		  from deptempl a, eadept b, employee c
+         where a.deptid=b.deptid and a.empid=c.empid
+           and c.dqzt=2
+          <if test="cascadeid != null">
+              and b.cascadeid like #{cascadeid, jdbcType=VARCHAR}
+          </if>
+          <if test="empid != null">
+              and a.empid = #{empid, jdbcType=BIGINT}
+          </if>
+          <if test="emps != null">
+              and a.empid = #{empid, jdbcType=INTEGER}
+          </if>
+          <if test="empList != null">
+          	and a.empid in 
+            <foreach item="item" index="index" collection="list"
+      			open="(" separator="," close=")">
+       				#{item}
+  			</foreach>
+  		 </if>
+    </select>
+
 </mapper>

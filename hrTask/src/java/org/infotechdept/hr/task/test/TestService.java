@@ -1,5 +1,6 @@
 package org.infotechdept.hr.task.test;
 
+import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingServiceProxy;
 import org.infotechdept.hr.system.HrUtils;
 import org.infotechdept.hr.task.dao.AdcShiftExceptionMapper;
 import org.infotechdept.hr.task.dao.AdcShiftMealsMapper;
@@ -89,7 +91,6 @@ public class TestService {
 		System.out.println(isRight);
 	}
 	
-	@Test
 	public void testMakeException() {
 		engineer.makeKqReport();
 	}
@@ -118,23 +119,6 @@ public class TestService {
 		sqlSession.update("AdcSysProc.hr_make_kq_report", Long.valueOf(tmpDateStr));
 	}
 	
-	public void testMakeScheduling(){
-		Calendar cal = Calendar.getInstance();
-		//Date tmpDate = cal.getTime();
-		
-		Date tmpDate = HrUtils.stringToDate("2015-10-28", "yyyy-MM-dd", "yyyy-MM-dd");
-
-		AdcShiftRecordExample example = new AdcShiftRecordExample();
-		//example.createCriteria().andApplyIdEqualTo(Long.valueOf("134"));
-		List<AdcShiftRecord> items = adcShiftRecordMapper.selectByExample(example);
-		for (AdcShiftRecord record : items) {
-			try {
-				adcShiftSchedulingService.makeShiftByRecordForInvoke(record, tmpDate, tmpDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}	
-	}
 	
 	public void testMakeNextDayScheduling(){
 		engineer.makeNextDayScheduling();
@@ -156,14 +140,6 @@ public class TestService {
 		}
 	}
 	
-
-	public void testUtils(){
-		Map resultMap = adcShiftUtils.getMetaSchedulingData("001007010005003", Long.valueOf("15218830"), new Date());
-		AdcShiftApply applyItem = (AdcShiftApply) resultMap.get("apply");
-		AdcShiftRecord recordItem = (AdcShiftRecord) resultMap.get("record");
-		System.out.println(applyItem.getApplyId());	
-	}
-	
 	public void testAdcShiftLeave(){
 		engineer.procAdcShiftLeave();
 	}
@@ -174,5 +150,16 @@ public class TestService {
 
 	public void testAdcShiftMeals(){
 		engineer.procOaMealsData();
+	}
+	
+	/**
+	 * 测试WEBSERVICE
+	 * @throws RemoteException 
+	 */
+	@Test
+	public void testwebsrv() throws RemoteException{
+		String dateStr = HrUtils.date2String(new Date(), "yyyyMMdd");
+		org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingService srv = new AdcShiftSchedulingServiceProxy();
+		srv.makeAdcShiftSchedulingDay(dateStr);
 	}
 }

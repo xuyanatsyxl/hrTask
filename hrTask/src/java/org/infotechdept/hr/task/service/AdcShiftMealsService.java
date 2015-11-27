@@ -75,7 +75,7 @@ public class AdcShiftMealsService {
 			for (Map entity : resultMap){
 				AdcShiftMeals adcShiftMeals = new AdcShiftMeals();
 				adcShiftMeals.setEmpid(Long.valueOf((String) entity.get("empid")));
-				adcShiftMeals.setDeptid((String)entity.get("deptid"));
+				adcShiftMeals.setDeptid((Long)entity.get("deptid"));
 				
 				while (tmpDate.getTime() <= endDate.getTime()){	
 					adcShiftMeals.setMealsDate(tmpDate);

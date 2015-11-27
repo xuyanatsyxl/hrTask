@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -300,6 +303,31 @@ public class HrUtils {
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 		dateMap.put("end_date", calendar.getTime());
 		return dateMap;
+	}
+	
+	/**
+	 * Java对象之间属性值拷贝(Map、JavaBean)
+	 * 
+	 * @param pFromObj
+	 *            Bean源对象
+	 * @param pToObj
+	 *            Bean目标对象
+	 * @throws XLDException 
+	 */
+	public static void copyProperties(Object pFromObj, Object pToObj) throws Exception {
+		if (pToObj != null) {
+			try {
+				// 支持属性空值复制
+				BeanUtilsBean.getInstance().getConvertUtils().register(false, true, 0);
+				// 日期类型复制
+				BeanUtilsDateConverter converter = new BeanUtilsDateConverter();
+				ConvertUtils.register(converter, java.util.Date.class);
+				ConvertUtils.register(converter, java.sql.Date.class);
+				BeanUtils.copyProperties(pToObj, pFromObj);
+			} catch (Exception e) {
+				throw new Exception("JavaBean之间的属性值拷贝发生错误", e);
+			}
+		}
 	}
 
 }

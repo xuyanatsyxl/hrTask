@@ -46,13 +46,13 @@ public class HrLeaveServiceImpl implements HrStafferService {
 		 * 离职的操作：
 		 * 1、人物标记为离职。
 		 * 2、把已经生成的排班表都删除。（离职日期之后的）
-		 * 3、异常删除
+		 * 3、离职之后的异常都删除删除
 		 */
 		Map resultMap = new HashMap(); 
 		BigDecimal bdEmpid = (BigDecimal) stafferMap.get("C_EMPOID");
 		Long empid = bdEmpid.longValue();
 		String oldUnitName = (String)stafferMap.get("C_OLDUNITNAME");
-		String deptidStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
+		Long deptidStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
 	
 		EmployeeExample emplExp = new EmployeeExample();
 		emplExp.createCriteria().andEmpidEqualTo(empid);

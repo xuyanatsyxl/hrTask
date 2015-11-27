@@ -13,6 +13,7 @@ import org.infotechdept.hr.task.dao.AdcShiftApplyMapper;
 import org.infotechdept.hr.task.dao.AdcShiftBasicMapper;
 import org.infotechdept.hr.task.dao.AdcShiftGroupEmplMapper;
 import org.infotechdept.hr.task.dao.AdcShiftRecordMapper;
+import org.infotechdept.hr.task.dao.EadeptMapper;
 import org.infotechdept.hr.task.model.AdcShiftApply;
 import org.infotechdept.hr.task.model.AdcShiftApplyExample;
 import org.infotechdept.hr.task.model.AdcShiftBasic;
@@ -22,6 +23,7 @@ import org.infotechdept.hr.task.model.AdcShiftGroupEmplExample;
 import org.infotechdept.hr.task.model.AdcShiftPatternDetail;
 import org.infotechdept.hr.task.model.AdcShiftRecord;
 import org.infotechdept.hr.task.model.AdcShiftRecordExample;
+import org.infotechdept.hr.task.model.Eadept;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,8 @@ public class AdcShiftUtils {
 	private AdcShiftGroupEmplMapper adcShiftGroupEmplMapper;
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	@Autowired
+	private EadeptMapper eadeptMapper;
 
 	/**
 	 * 根据基本班次ID和日期，返回该天应该上下班的时间
@@ -90,22 +94,7 @@ public class AdcShiftUtils {
 	public String isFullDayOrHalfDay(Date pDate, String shiftId){
 		return null;
 	}
-	
-	/**
-	 * 判断指定人员在指定日期应该上什么班次
-	 * @param pDate
-	 * @param empid
-	 * @param deptid
-	 * @return
-	 */
-	public AdcShiftBasic getAdcShiftBasicByEmpidAndDate(Date pDate, Long empid, String deptid){
-		Map resultMap = getMetaSchedulingData(deptid, empid, pDate);
-		AdcShiftRecord record = (AdcShiftRecord) resultMap.get("record");
-		if (HrUtils.isNotEmpty(record)){
 
-		}
-		return null;
-	}
 	
 	/**
 	 * 根据班次应用ID获得排班记录
@@ -126,81 +115,17 @@ public class AdcShiftUtils {
 		}
 		return null;		
 	}
-	
-	/**
-	 * 根据日期、所属部门和人员查询班次应用和排班记录
-	 * @param deptid
-	 * @param empid
-	 * @param pDate
-	 * @return
-	 */
-	public Map getMetaSchedulingData(String deptid, Long empid, Date pDate){
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		AdcShiftApplyExample applyExample = new AdcShiftApplyExample();
-		if (HrUtils.isNotEmpty(empid)){
-			//判断有没有个人排班
-			applyExample.createCriteria().andDeptidLike(deptid).andEmpidEqualTo(empid).andRecordTypeEqualTo("3");
-			List<AdcShiftApply> applyItems = adcShiftApplyMapper.selectByExample(applyExample);
-			if (applyItems.size() > 0){
-				Long applyId = applyItems.get(0).getApplyId();
-				AdcShiftRecord record = getAdcShiftRecordByApplyId(applyId, pDate);
-				if (HrUtils.isNotEmpty(record)){
-					resultMap.put("record", record);
-					resultMap.put("apply", applyItems.get(0));
-					return resultMap;
-				}
-			}
-			
-			//判断个人是否在分组中，并且有没有分组排班
-			AdcShiftGroupEmplExample groupExample = new AdcShiftGroupEmplExample();
-			groupExample.createCriteria().andEmpidEqualTo(empid);
-			List<AdcShiftGroupEmpl> entitys = adcShiftGroupEmplMapper.selectByExample(groupExample);
-			if (entitys.size() > 0){
-				String groupId = entitys.get(0).getGroupId();
-				applyExample.clear();
-				applyExample.createCriteria().andGroupIdEqualTo(groupId).andRecordTypeEqualTo("2");
-				applyItems = adcShiftApplyMapper.selectByExample(applyExample);
-				if (applyItems.size() > 0){
-					Long applyId = applyItems.get(0).getApplyId();
-					AdcShiftRecord record = getAdcShiftRecordByApplyId(applyId, pDate);
-					if (HrUtils.isNotEmpty(record)){
-						resultMap.put("record", record);
-						resultMap.put("apply", applyItems.get(0));
-						return resultMap;
-					}
-				}
-			}	
-		}
-		
-		//判断所属的部门有没有排班，这时候有没有EMPID参数都一样了
-		int i = deptid.length();
-		while (i > 0){
-			applyExample.clear();
-			deptid = deptid.substring(0, i);
-			applyExample.createCriteria().andDeptidEqualTo(deptid).andRecordTypeEqualTo("1");
-			List<AdcShiftApply> applyItems = adcShiftApplyMapper.selectByExample(applyExample);
-			if (applyItems.size() > 0){
-				Long applyId = applyItems.get(0).getApplyId();
-				AdcShiftRecord record = getAdcShiftRecordByApplyId(applyId, pDate);
-				if (record != null){
-					resultMap.put("record", record);
-					resultMap.put("apply", applyItems.get(0));
-					return resultMap;
-				}
-			}
-			i = i - 3;
-		}
-		return null;	
-	}
+
 	
 	/**
 	 * 根据HR的UNITNAME字段取得DEPTID
 	 * 分割HR系统人员的UNITNAME字段，逐个查找部门
 	 * 如果没有就创建
 	 */
-	public String getDeptidByUnitName(String unitName){
+	public Long getDeptidByUnitName(String unitName){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		String deptidStr = null;
+		Long deptidStr = null;
+		String cascadeId = null;
 		String[] units = unitName.split("-");
 		int i = 0;
 		for (String unit : units){
@@ -208,24 +133,29 @@ public class AdcShiftUtils {
 			paramMap.put("deptname", unit);
 			paramMap.put("level", (i + 2) * 3);
 			if (i >0){
-				paramMap.put("deptid", deptidStr + "%");
+				paramMap.put("cascadeid", cascadeId + "%");
 			}
-			String tmpDeptid = sqlSession.selectOne("Dept.queryDeptidByParam", paramMap);
-			if (tmpDeptid != null){
-				deptidStr = tmpDeptid;
-			}else{
+			Map resultMap = sqlSession.selectOne("Dept.queryDeptidByParam", paramMap);
+			Long tmpDeptid = null;
+			if (HrUtils.isNotEmpty(resultMap)){
+			    tmpDeptid = (Long)resultMap.get("deptid");
+			    deptidStr = tmpDeptid;
+				cascadeId = (String)resultMap.get("cascadeid");
+			}else{				
 				paramMap.clear();
 				paramMap.put("deptname", unit);
 				if (i == 0){
-					paramMap.put("parentid", "001");
+					paramMap.put("parentid", Long.valueOf("1"));
 				}else{
 					paramMap.put("parentid", deptidStr);
 				}
-				deptidStr = getDeptIdGenerator((String) paramMap.get("parentid"));
-				paramMap.put("deptid", deptidStr);
+				cascadeId = getCascadeIdGenerator((Long)paramMap.get("parentid"));
+				paramMap.put("deptid", null);
+				paramMap.put("cascadeid", cascadeId);
 				paramMap.put("enabled", "1");
 				paramMap.put("leaf", "0");
-				sqlSession.insert("Dept.saveDeptItem", paramMap);			
+				sqlSession.insert("Dept.saveDeptItem", paramMap);
+				deptidStr = (Long)paramMap.get("deptid");
 			}
 			i++;
 		}
@@ -237,28 +167,33 @@ public class AdcShiftUtils {
      * @param pParentid 菜单编号的参考编号
      * @return
      */
-	private String getDeptIdGenerator(String pParentid){
-		String maxSubDeptId = (String)sqlSession.selectOne("Dept.getMaxSubDeptId", pParentid);
-		String deptid = null;
+	private String getCascadeIdGenerator(Long pParentid){
+		String parentCascadeid = (String)sqlSession.selectOne("Dept.queryCascadeidByDeptid", pParentid);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("parentid", pParentid);
+		paramMap.put("cascadeid", parentCascadeid + "%");
+		String maxSubDeptId = (String)sqlSession.selectOne("Dept.getMaxSubDeptIdNew", paramMap);
+		
+		String cascadeid = null;
 		if(maxSubDeptId == null){
-			deptid = "001";
+			cascadeid = "001";
 		}else{
 			int length = maxSubDeptId.length();
 			String temp = maxSubDeptId.substring(length-3, length);
 			int intDeptId = Integer.valueOf(temp).intValue() + 1;
 			if(intDeptId > 0 && intDeptId < 10){
-				deptid = "00" + String.valueOf(intDeptId);
+				cascadeid = "00" + String.valueOf(intDeptId);
 			}else if(10 <= intDeptId && intDeptId <= 99){
-				deptid = "0" + String.valueOf(intDeptId);
+				cascadeid = "0" + String.valueOf(intDeptId);
 			}else if (100 <= intDeptId && intDeptId <= 999) {
-				deptid = String.valueOf(intDeptId);
+				cascadeid = String.valueOf(intDeptId);
 			}else if(intDeptId >999){
 				log.error("生成部门编号越界了.同级兄弟节点编号为[001-999]\n请和您的系统管理员联系!");
 			}else{
 				log.error("生成部门编号发生未知错误,请和开发人员联系!");
 			}
 		}
-		return pParentid + deptid;
+		return parentCascadeid + cascadeid;
 	}
 	
 	/**
@@ -272,6 +207,20 @@ public class AdcShiftUtils {
 			return 1;
 		}else{
 			return temp.intValue();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param deptid
+	 * @return
+	 */
+	public String getCascadeidByDeptid(Long deptid){
+		Eadept entity = eadeptMapper.selectByPrimaryKey(deptid);
+		if (HrUtils.isNotEmpty(entity)){
+			return entity.getCascadeid();
+		}else{
+			return null;
 		}
 	}
 	

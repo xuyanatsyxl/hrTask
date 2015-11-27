@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.infotechdept.hr.system.HrUtils;
 import org.infotechdept.hr.task.dao.AdcHolidayDetailMapper;
 import org.infotechdept.hr.task.dao.AdcShiftApplyMapper;
@@ -85,6 +86,8 @@ public class AdcShiftSchedulingService {
 	
 	@Autowired
 	private AdcShiftUtils adcShiftUtils;
+	@Autowired
+	private SqlSession sqlSession;
 
 	/**
 	 * 根据条件查询是否有请假记录
@@ -194,11 +197,11 @@ public class AdcShiftSchedulingService {
 	 * @param startDate
 	 * @param endDate
 	 * @return
-	 * @throws ParseException
+	 * @throws Exception 
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public int makeShiftByRecordForInvoke(AdcShiftRecord record,
-			Date startDate, Date endDate) throws ParseException {
+			Date startDate, Date endDate) throws Exception {
 		Date tmpDate = startDate;
 		while (tmpDate.getTime() <= endDate.getTime()) {
 			makeAdcShiftSchedulingOne(record, tmpDate);
@@ -217,10 +220,10 @@ public class AdcShiftSchedulingService {
 	 * @param record
 	 * @param dateStart
 	 * @return
-	 * @throws ParseException
+	 * @throws Exception 
 	 */
 	public int makeAdcShiftSchedulingOne(AdcShiftRecord record, Date dateStart)
-			throws ParseException {
+			throws Exception {
 
 		Date tmpDate = dateStart;
 		Map adcShiftPatternMap = getAdcShiftPatternByApplyId(record
@@ -232,12 +235,14 @@ public class AdcShiftSchedulingService {
 				.intValue();
 
 		// 获得人员列表
+		Map<String, Object> empMap = new HashMap<String, Object>();
+		
 		AdcShiftApply adcShiftApply = adcShiftApplyMapper
 				.selectByPrimaryKey(record.getApplyId());
-		DeptemplExample example = new DeptemplExample();
+		String cascadeId = adcShiftUtils.getCascadeidByDeptid(adcShiftApply.getDeptid());
 		if (adcShiftApply.getRecordType().equalsIgnoreCase("1")) {
-			example.createCriteria().andDeptidLike(
-					adcShiftApply.getDeptid() + "%");
+			
+			empMap.put("cascadeid", cascadeId + "%");
 		} else if (adcShiftApply.getRecordType().equalsIgnoreCase("2")) {
 			AdcShiftGroupEmplExample exp = new AdcShiftGroupEmplExample();
 			exp.createCriteria().andGroupIdEqualTo(adcShiftApply.getGroupId());
@@ -253,15 +258,12 @@ public class AdcShiftSchedulingService {
 			for (AdcShiftGroupEmpl ent : listGroupEmpl) {
 				idList.add(ent.getEmpid());
 			}
-			example.createCriteria().andEmpidIn(idList);
-
+			empMap.put("idList", idList);
 		} else if (adcShiftApply.getRecordType().equalsIgnoreCase("3")) {
-			example.createCriteria().andDeptidLike(adcShiftApply.getDeptid())
-					.andEmpidEqualTo(adcShiftApply.getEmpid());
+			empMap.put("empid", adcShiftApply.getEmpid());
 		}
 
-		List<Deptempl> empList = deptemplMapper.selectByExample(example);
-
+		List<HashMap> empList = sqlSession.selectList("Dept.queryDeptEmplForManage", empMap); 
 		/**
 		 * 如果该记录允许节休，需要计算当天是否替换掉
 		 */
@@ -290,8 +292,16 @@ public class AdcShiftSchedulingService {
 		AdcShiftPatternDetail adcShiftPatternDetail = list.get(iPosition - 1);
 
 		Map dateMap = getWorkAndOffTimeByShiftId(adcShiftPatternDetail.getShiftId(), tmpDate);
-		AdcShiftScheduling adcShiftScheduling = new AdcShiftScheduling();
-		for (Deptempl emp : empList) {
+
+		Deptempl emp = new Deptempl();
+		
+		/**
+		 * 试试批量插入
+		 */
+		List<AdcShiftScheduling> schList = new ArrayList<AdcShiftScheduling>();
+		for (Map empMap1 : empList) {
+			AdcShiftScheduling adcShiftScheduling = new AdcShiftScheduling();		
+			HrUtils.copyProperties(empMap1, emp);
 			int i = getPriorityFromScheduling(emp.getDeptid(), emp.getEmpid(),
 					dateStart);
 			if (Integer.valueOf(adcShiftApply.getPriority()).intValue() > i) {
@@ -319,6 +329,7 @@ public class AdcShiftSchedulingService {
 					adcShiftScheduling.setWorkTime((Date)shiftMap.get("dateWork"));
 					adcShiftScheduling.setOffTime((Date)shiftMap.get("dateOff"));
 					adcShiftScheduling.setAdcId((String)shiftMap.get("adc_id"));
+					adcShiftScheduling.setCount(Double.valueOf("1"));
 				}else{
 					adcShiftScheduling.setAdcId(resultMap.getAdcId());
 					/**
@@ -333,9 +344,10 @@ public class AdcShiftSchedulingService {
 					} else if (resultMap.getAffDays().floatValue() == 0.5) {
 						adcShiftScheduling.setOffTime(null);
 					}	
+					adcShiftScheduling.setCount(resultMap.getAffDays());
 				}
 			} else {
-				
+				adcShiftScheduling.setCount(Double.valueOf("1"));
 			}
 
 			adcShiftScheduling.setSchDate(tmpDate);
@@ -343,9 +355,12 @@ public class AdcShiftSchedulingService {
 
 			adcShiftScheduling.setPriority(adcShiftApply.getPriority());
 			adcShiftScheduling.setRecordType(adcShiftApply.getRecordType());
-			adcShiftSchedulingMapper.insert(adcShiftScheduling);
+			
+			schList.add(adcShiftScheduling);
+			//adcShiftSchedulingMapper.insert(adcShiftScheduling);
 		}
-
+		int i = sqlSession.insert("AdcShiftSchedulingOper.insertAdcShiftSechdulingBatch", schList);
+		System.out.println(i);
 		return 0;
 	}
 
@@ -360,7 +375,7 @@ public class AdcShiftSchedulingService {
 	private int getPriorityFromScheduling(Long deptid, Long empid, Date date) {
 		AdcShiftSchedulingExample example = new AdcShiftSchedulingExample();
 		example.createCriteria().andEmpidEqualTo(Long.valueOf(empid))
-				.andSchDateEqualTo(date).anddeptid (deptid);
+				.andSchDateEqualTo(date).andDeptidEqualTo(deptid);
 		List<AdcShiftScheduling> lists = adcShiftSchedulingMapper
 				.selectByExample(example);
 		if (lists.size() == 0) {
@@ -378,7 +393,7 @@ public class AdcShiftSchedulingService {
 	 * @return
 	 */
 	public AdcShiftScheduling getAdcShiftSchedulingByDateAndEmpId(Date date,
-			Long empid, String deptid) {
+			Long empid, Long deptid) {
 		AdcShiftSchedulingExample example = new AdcShiftSchedulingExample();
 		example.createCriteria().andEmpidEqualTo(empid).andSchDateEqualTo(date)
 				.andDeptidEqualTo(deptid);

@@ -13,7 +13,7 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://61.161.160.23:3306/xlhr" userId="root"
+			connectionURL="jdbc:mysql://localhost:3306/xlhr" userId="root"
 			password="xinglong828">
 		</jdbcConnection>
 
@@ -39,7 +39,8 @@
 			targetPackage="org.infotechdept.hr.task.dao" targetProject="../../../src/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<!--  		-->	
+		<!--  	
+		<table tableName="eadept" />
  		<table tableName="adc_attend_type" />
 		<table tableName="adc_holiday" />
 		<table tableName="adc_holiday_detail" />
@@ -57,13 +58,13 @@
 		<table tableName="employee" />
 		<table tableName="deptempl" />
 		<table tableName="oa_intf" />
-		<table tableName="adc_shift_exception"/>	
+
 		<table tableName="adc_shift_meals"/>
 		<table tableName="adc_dinner_room"/>
 		<table tableName="adc_dinner_room_unit"/>
 		<table tableName="adc_dinner_room_dkj"/>
 		<table tableName="adc_shift_scheduling" />
-
-
+		-->	
+		<table tableName="adc_shift_exception"/>	
 	</context>
 </generatorConfiguration>

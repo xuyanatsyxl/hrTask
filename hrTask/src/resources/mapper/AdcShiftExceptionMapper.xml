@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.infotechdept.hr.task.model.AdcShiftException" >
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="EXCEPTION_DATE" property="exceptionDate" jdbcType="DATE" />
-    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="BIGINT" />
     <result column="EMPID" property="empid" jdbcType="BIGINT" />
     <result column="CODE" property="code" jdbcType="VARCHAR" />
     <result column="SCH_ID" property="schId" jdbcType="BIGINT" />
@@ -118,7 +118,7 @@
       ADC_ID, PROC_MEMO, OPERATOR, 
       OPERATE_TIME, requestid, FTriggerFlag
       )
-    values (#{id,jdbcType=BIGINT}, #{exceptionDate,jdbcType=DATE}, #{deptid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{exceptionDate,jdbcType=DATE}, #{deptid,jdbcType=BIGINT}, 
       #{empid,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{schId,jdbcType=BIGINT}, #{exceptionField,jdbcType=VARCHAR}, 
       #{checkTime,jdbcType=TIMESTAMP}, #{actualCheckTime,jdbcType=TIMESTAMP}, #{procState,jdbcType=VARCHAR}, 
       #{adcId,jdbcType=VARCHAR}, #{procMemo,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
@@ -185,7 +185,7 @@
         #{exceptionDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        #{deptid,jdbcType=VARCHAR},
+        #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         #{empid,jdbcType=BIGINT},
@@ -244,7 +244,7 @@
         EXCEPTION_DATE = #{record.exceptionDate,jdbcType=DATE},
       </if>
       <if test="record.deptid != null" >
-        DEPTID = #{record.deptid,jdbcType=VARCHAR},
+        DEPTID = #{record.deptid,jdbcType=BIGINT},
       </if>
       <if test="record.empid != null" >
         EMPID = #{record.empid,jdbcType=BIGINT},
@@ -294,7 +294,7 @@
     update adc_shift_exception
     set ID = #{record.id,jdbcType=BIGINT},
       EXCEPTION_DATE = #{record.exceptionDate,jdbcType=DATE},
-      DEPTID = #{record.deptid,jdbcType=VARCHAR},
+      DEPTID = #{record.deptid,jdbcType=BIGINT},
       EMPID = #{record.empid,jdbcType=BIGINT},
       CODE = #{record.code,jdbcType=VARCHAR},
       SCH_ID = #{record.schId,jdbcType=BIGINT},
@@ -319,7 +319,7 @@
         EXCEPTION_DATE = #{exceptionDate,jdbcType=DATE},
       </if>
       <if test="deptid != null" >
-        DEPTID = #{deptid,jdbcType=VARCHAR},
+        DEPTID = #{deptid,jdbcType=BIGINT},
       </if>
       <if test="empid != null" >
         EMPID = #{empid,jdbcType=BIGINT},
@@ -366,7 +366,7 @@
   <update id="updateByPrimaryKey" parameterType="org.infotechdept.hr.task.model.AdcShiftException" >
     update adc_shift_exception
     set EXCEPTION_DATE = #{exceptionDate,jdbcType=DATE},
-      DEPTID = #{deptid,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=BIGINT},
       EMPID = #{empid,jdbcType=BIGINT},
       CODE = #{code,jdbcType=VARCHAR},
       SCH_ID = #{schId,jdbcType=BIGINT},

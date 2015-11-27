@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 手工映射mapper，关于排班表的生成都在这里 -->
+<mapper namespace="AdcShiftSchedulingOper">
+    
+    <!-- 查询班次应用和班次初始化连接查询 -->
+    <select id="queryAdcShiftApply" parameterType="Map" resultType="hashmap">
+		select a.apply_id as applyId, c.deptid, c.cascadeid, c.deptname, a.empid, a.group_id as groupId, a.pattern_id as patternId, a.priority, 
+			 a.record_type as recordType, b.init_date as initDate, b.init_position as initPosition, b.holiable, b.rec_id as recId
+		 from adc_shift_apply a, adc_shift_record b, eadept c
+		where a.apply_id=b.apply_id and a.deptid=c.deptid
+		 <if test="cascadeid != null and cascadeid != ''">
+		     and c.cascadeid like #{cascadeid, jdbcType=VARCHAR}
+		 </if>
+		 
+    </select>
+    
+    <!-- 批量插入排班表 -->
+  	<insert id="insertAdcShiftSechdulingBatch" parameterType="list" >
+    	insert into adc_shift_scheduling (SCH_DATE, DEPTID, GROUP_ID, EMPID, SHIFT_ID, REC_ID, WORK_TIME, ACTUAL_WORK_TIME, OFF_TIME, ACTUAL_OFF_TIME, ADC_ID, 
+      		RECORD_TYPE, PRIORITY, COUNT, SHIFT_SYMBOL) values
+      <foreach item="item" index="index" collection="list"	open="(" separator="," close=")">
+    	 #{item.schDate,jdbcType=DATE}, #{item.deptid,jdbcType=BIGINT}, 
+      	 #{item.groupId,jdbcType=VARCHAR}, #{item.empid,jdbcType=BIGINT}, #{item.shiftId,jdbcType=VARCHAR}, 
+         #{item.recId,jdbcType=BIGINT}, #{item.workTime,jdbcType=TIMESTAMP}, #{item.actualWorkTime,jdbcType=TIMESTAMP}, 
+         #{item.offTime,jdbcType=TIMESTAMP}, #{item.actualOffTime,jdbcType=TIMESTAMP}, #{item.adcId,jdbcType=VARCHAR}, 
+         #{item.recordType,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.count,jdbcType=DOUBLE}, 
+         #{item.shiftSymbol,jdbcType=VARCHAR}
+      </foreach>
+  </insert>  
+  
+</mapper>

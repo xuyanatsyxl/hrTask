@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/java/org/infotechdept/hr/kq/rpc/webservice/AdcShiftSchedulingService.java=UTF-8
+encoding//src/java/org/infotechdept/hr/kq/rpc/webservice/server/AdcShiftSchedulingServiceImplService.java=UTF-8
+encoding//src/java/org/infotechdept/hr/kq/rpc/webservice/server/AdcShiftSchedulingServiceImplServiceLocator.java=UTF-8
+encoding//src/java/org/infotechdept/hr/kq/rpc/webservice/server/AdcShiftSchedulingServiceImplServiceSoapBindingStub.java=UTF-8
 encoding/<project>=UTF-8

@@ -56,8 +56,8 @@ public class HrTurnServiceImpl implements HrStafferService {
 		String oldUnitName = (String)stafferMap.get("C_OLDUNITNAME");
 		String newUnitName = (String)stafferMap.get("C_NEWUNITNAME");
 		
-		String deptidOldStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
-		String deptidNewStr = adcShiftUtils.getDeptidByUnitName(newUnitName);
+		Long deptidOldStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
+		Long deptidNewStr = adcShiftUtils.getDeptidByUnitName(newUnitName);
 
 		try{
 			if ((deptidOldStr == null) || (deptidNewStr == null)){
