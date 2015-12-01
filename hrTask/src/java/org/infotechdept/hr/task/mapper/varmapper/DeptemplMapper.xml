@@ -8,9 +8,9 @@
          where a.EMPID=b.EMPID and b.DEPTID=c.DEPTID
              <if test="codes != null">
                  and a.code in 
- 				<foreach collection="array" item="code" index="index"
+ 				<foreach collection="array" item="codes" index="index"
             			open="(" close=")" separator=",">
-            		#{code}
+            		#{codes}
         		</foreach>	         
   		     </if>
  	</select>

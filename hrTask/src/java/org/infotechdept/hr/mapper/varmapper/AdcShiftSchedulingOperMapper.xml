@@ -13,8 +13,7 @@
 		where a.apply_id=b.apply_id and a.deptid=c.deptid
 		 <if test="cascadeid != null and cascadeid != ''">
 		     and c.cascadeid like #{cascadeid, jdbcType=VARCHAR}
-		 </if>
-		 
+		 </if>	 
     </select>
     
     <!-- 批量插入排班表 -->
@@ -29,6 +28,14 @@
          #{item.recordType,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.count,jdbcType=DOUBLE}, 
          #{item.shiftSymbol,jdbcType=VARCHAR}
       </foreach>
-  </insert>  
+  	</insert>  
   
+  	   <!-- 查询班次应用和班次初始化连接查询 -->
+    <select id="queryRecentlyMeals" parameterType="java.lang.Long" resultType="hashmap">
+  		select id, meals_date, deptid, empid, room_id, meals_type, meals_times
+ 		  from adc_shift_meals 
+ 		 where empid = #{empid, jdbcType=BIGINT}
+ 		  order by id limit 1	 
+    </select>
+
 </mapper>

@@ -329,5 +329,17 @@ public class HrUtils {
 			}
 		}
 	}
+	
+	/**
+	 * 比较两个日期的日数大小
+	 * @param date1
+	 * @param date2
+	 * @return >0 则date2>date1 =0 date2=date1 <0 date2<date1 
+	 */
+	public static int compareDateDayOfMonth(Date date1, Date date2){
+		Date tmpDate1 = HrUtils.stringToDate(HrUtils.date2String(date1, "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");
+		Date tmpDate2 = HrUtils.stringToDate(HrUtils.date2String(date2, "yyyy-MM-dd"), "yyyy-MM-dd", "yyyy-MM-dd");
+		return (int) (tmpDate1.getTime()  - tmpDate2.getTime());
+	}
 
 }

@@ -94,4 +94,11 @@
 		  from employee a, deptempl b, eadept c
 		 where a.empid=b.empid and b.deptid=c.deptid and c.ENABLED='0'
     </select>
+    
+    <select id="queryEnabledZero2" resultType="org.infotechdept.hr.task.model.Deptempl">
+		select b.*
+		 from employee a, deptempl b
+        where a.empid=b.empid and b.deptname like '%部长级%' and a.dqzt='2'
+
+    </select>
 </mapper>

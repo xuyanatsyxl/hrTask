@@ -167,12 +167,12 @@ public class TestService {
 		org.infotechdept.hr.kq.rpc.webservice.AdcShiftSchedulingService srv = new AdcShiftSchedulingServiceProxy();
 		srv.makeAdcShiftSchedulingDay(dateStr);
 	}
+	
 
-	@Test
 	public void testUpdateUnitName() {
 		DeptemplExample exp = new DeptemplExample();
 		Map<String, Object> params = new HashMap<String, Object>();
-		List<Deptempl> items = sqlSession.selectList("User.queryEnabledZero");
+		List<Deptempl> items = sqlSession.selectList("User.queryEnabledZero2");
 		for (Deptempl item : items) {
 			params.clear();
 			params.put("empid", item.getEmpid());
@@ -181,9 +181,7 @@ public class TestService {
 			exp.clear();
 			exp.createCriteria().andDeptidEqualTo(item.getDeptid())
 					.andEmpidEqualTo(item.getEmpid());
-			Long deptid = adcShiftUtils.getDeptidByUnitName(deptname);
 			item.setDeptname(deptname);
-			item.setDeptid(deptid);
 			try {
 				deptemplMapper.updateByExample(item, exp);
 				System.out.println(item.getEmpid() + item.getDeptname());
@@ -191,5 +189,10 @@ public class TestService {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Test
+	public void testMealsLeave(){
+		engineer.procOaMealsData();
 	}
 }
