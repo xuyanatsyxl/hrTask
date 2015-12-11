@@ -14,8 +14,22 @@
 	
 	<!-- 此处对于定时时间的配置会被注解中的时间配置覆盖，因此，以注解配置为准 -->
 	<task:scheduled-tasks scheduler="myScheduler">
+		<!-- 生成考勤异常数据，每天凌晨3点定时运行 -->
+		<task:scheduled ref="engineer" method="makeKqReport" cron="0 0 3 * * ?" />
 		<!-- 生成次日的排班数据，在每天晚21点 -->
-		<task:scheduled ref="engineer" method="makeNextDayScheduling" cron="0 30 9 * * ?" />
+		<task:scheduled ref="engineer" method="makeNextDayScheduling" cron="0 0 21 * * ?" />
+		<!-- 应用oa请求记录，7点至22点之间，每隔10分钟执行一次  -->
+		<task:scheduled ref="engineer" method="procOaData" cron="0 0/10 7-22 * * ?" />
+		<!-- 每天处理当天的请假记录 -->
+		<task:scheduled ref="engineer" method="procAdcShiftLeave" cron="0 0 22 * * ?" />
+		<!-- 查询每天HR系统产生的异动记录，并应用的考勤系统中，每天晚上10点执行 -->
+		<task:scheduled ref="engineer" method="scanHrForStaffer" cron="0 0 22 * * ?" />
+		<!-- 每天早上八点将前一天生成的异常数据推送到OA端 -->
+		<task:scheduled ref="engineer" method="pushExceptionToOA" cron="0 0 8 * * ?" />
+		<!-- 每天早上三点汇总头一天的就餐数据 -->
+		<task:scheduled ref="engineer" method="procAdcShiftMeals" cron="0 0 8 * * ?" />
+		<!-- 应用oa请饭假记录，7点至22点之间，每隔5分钟执行一次 -->
+		<task:scheduled ref="engineer" method="procOaMealsData" cron="0 0/5 7-22 * * ?" />
 	</task:scheduled-tasks>
 	<task:scheduler id="myScheduler" pool-size="60" />
 

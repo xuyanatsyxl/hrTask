@@ -130,7 +130,8 @@ public class TestService {
 
 	public void testHr() {
 		Map paramMap = new HashMap();
-		paramMap.put("date", HrUtils.getCurDate("yyyy-MM-dd"));
+		String dateStr = "2015-11-30";
+		paramMap.put("date", dateStr);
 		List<Map> items = sqlSessionHr.selectList(
 				"HR.queryTbPerStafferrcordForTrans", paramMap);
 		if (items.size() > 0) {
@@ -193,6 +194,6 @@ public class TestService {
 	
 	@Test
 	public void testMealsLeave(){
-		engineer.procOaMealsData();
+		engineer.scanHrForStaffer();
 	}
 }

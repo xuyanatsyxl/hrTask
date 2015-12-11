@@ -140,17 +140,14 @@ public class AdcShiftMealsService {
 		EmployeeExample emplExp = new EmployeeExample();
 		emplExp.createCriteria().andCodeIn(codeList).andDqztEqualTo("2");
 		List<Employee> emplEntitys = employeeMapper.selectByExample(emplExp);
-		
-		if (emplEntitys.size() > 0){
-			Date tmpDate = null;
-			
-			int i = HrUtils.compareDateDayOfMonth(writeDateTime, startDate);
-			if (i <= 0){
-				//属于起点在当天饭假的
-				tmpDate = writeDateTime;
-			}
-			
+		int i = HrUtils.compareDateDayOfMonth(writeDateTime, startDate);		
+		if (emplEntitys.size() > 0)
 			for (Employee entity : emplEntitys){
+				Date tmpDate = null;
+				if (i <= 0){
+					//属于起点在当天饭假的
+					tmpDate = writeDateTime;
+				}
 				AdcShiftMeals adcShiftMeals = new AdcShiftMeals();
 				adcShiftMeals.setEmpid(entity.getEmpid());
 				
@@ -182,8 +179,22 @@ public class AdcShiftMealsService {
 						adcShiftMeals.setMealsType("4");
 					}
 					adcShiftMeals.setMealsDate(tmpDate);
-					adcShiftMealsMapper.insert(adcShiftMeals);
-										
+					AdcShiftMealsExample mealsExp = new AdcShiftMealsExample();
+					mealsExp.createCriteria().andDeptidEqualTo(adcShiftMeals.getDeptid()).andEmpidEqualTo(adcShiftMeals.getEmpid()).andMealsDateEqualTo(adcShiftMeals.getMealsDate()).andMealsTypeEqualTo(adcShiftMeals.getMealsType());
+					int icount = adcShiftMealsMapper.countByExample(mealsExp);
+					if (icount == 0){
+						try{
+							adcShiftMealsMapper.insert(adcShiftMeals);
+						}catch(Exception e){
+							Calendar calendar = Calendar.getInstance();
+							calendar.setTime(tmpDate);
+							calendar.add(Calendar.DAY_OF_MONTH, 1);
+							tmpDate = calendar.getTime();
+							j++;
+							continue;
+						}
+					}
+															
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(tmpDate);
 					calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -191,8 +202,6 @@ public class AdcShiftMealsService {
 					j++;
 				}
 			}
-			
-		}
 		return 0;
 	}
 }

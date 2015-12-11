@@ -295,6 +295,7 @@ public class AdcShiftLeaveService {
 		}
 
 		// 准备好日期变量
+		HrUtils.mergeDate(rec.getKsrq(), "00:00");
 		Date dateStart = HrUtils.stringToDate(rec.getKsrq(), "yyyy-MM-dd", "yyyy-MM-dd");
 		Date dateEnd = HrUtils.stringToDate(rec.getJsrq(), "yyyy-MM-dd", "yyyy-MM-dd");
 		Date datetimeStart = HrUtils.mergeDate(rec.getKsrq(), rec.getKssj());
@@ -303,12 +304,14 @@ public class AdcShiftLeaveService {
 		/**
 		 * 判断请的假是否有半天（0.5)天的效果 如果有，要判断是以这0.5天开始，还是以这0.5天结束 restType :
 		 * 0是无半天效果，1是半天在前（下半天)，2是半天在后(上半天)。
+		 * 1是下午半天假，2是上午半天假。
 		 */
 		String restType = "0";
 		if (!HrUtils.isEmpty(rec.getDays())) {
 			if (HrUtils.isFloat(rec.getDays())) {
 				/*
 				 * 先用一种简单的方法来判断，以中午12点为界， 起始日期在12点之前的就是后半天， 在12点之后的，就是前半天
+				 * restType : 1
 				 */
 				Long startLong = Long.valueOf(HrUtils.date2String(datetimeStart, "HHmmss"));
 				Long sLong = Long.valueOf("120000");
@@ -335,7 +338,7 @@ public class AdcShiftLeaveService {
 				record.setEmpid(empid);
 				record.setDeptid(deptid);
 				record.setAdcId(adcId);
-				record.setAdditionInfo(record.getRemark());
+				record.setAdditionInfo(rec.getRemark());
 				record.setRequestid(rec.getRequestid());
 				record.setOperator("10000000");
 				record.setOperateTime(new Date());
