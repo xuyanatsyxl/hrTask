@@ -180,7 +180,14 @@ public class AdcShiftMealsService {
 					}
 					adcShiftMeals.setMealsDate(tmpDate);
 					AdcShiftMealsExample mealsExp = new AdcShiftMealsExample();
-					mealsExp.createCriteria().andDeptidEqualTo(adcShiftMeals.getDeptid()).andEmpidEqualTo(adcShiftMeals.getEmpid()).andMealsDateEqualTo(adcShiftMeals.getMealsDate()).andMealsTypeEqualTo(adcShiftMeals.getMealsType());
+					
+					/**
+					 * 校验，防止重复请假时，会产生同时存在及时饭假和不及时饭假的情况。
+					 */
+					List<String> mealsLeaveTypes = new ArrayList<String>();
+					mealsLeaveTypes.add("4");
+					mealsLeaveTypes.add("5");
+					mealsExp.createCriteria().andDeptidEqualTo(adcShiftMeals.getDeptid()).andEmpidEqualTo(adcShiftMeals.getEmpid()).andMealsDateEqualTo(adcShiftMeals.getMealsDate()).andMealsTypeIn(mealsLeaveTypes);
 					int icount = adcShiftMealsMapper.countByExample(mealsExp);
 					if (icount == 0){
 						try{

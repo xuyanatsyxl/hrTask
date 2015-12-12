@@ -35,6 +35,7 @@ import org.infotechdept.hr.task.model.AdcShiftExceptionExample;
 import org.infotechdept.hr.task.model.AdcShiftGroupEmpl;
 import org.infotechdept.hr.task.model.AdcShiftGroupEmplExample;
 import org.infotechdept.hr.task.model.AdcShiftLeave;
+import org.infotechdept.hr.task.model.AdcShiftLeaveExample;
 import org.infotechdept.hr.task.model.AdcShiftMeals;
 import org.infotechdept.hr.task.model.AdcShiftMealsExample;
 import org.infotechdept.hr.task.model.AdcShiftScheduling;
@@ -205,65 +206,6 @@ public class AdcShiftLeaveService {
 	}
 
 	/**
-	 * 专门处理饭假的OA请求
-	 * @param rec
-	 * @return
-	 */
-	public int procMealsOaIntf(OaIntf rec) {
-		/**
-		 * 饭假，还是单独先处理吧。业务类型是0312 原来想简单了，如果是连续请饭假，怎么办？
-		 */
-		/*
-		if (attendType.getTypeId().equalsIgnoreCase("0312")) {
-			// 比较tmpDate和curDate,如果小于curDate就跳出
-			Long vTmp = Long.valueOf(HrUtils.date2String(tmpDate, "yyyyMMdd"));
-			Long vCur = Long.valueOf(HrUtils.date2String(curDate, "yyyyMMdd"));
-
-			Long lTmp = Long.valueOf(HrUtils.date2String(tmpDate, "HHmmss"));
-			
-			//如果小于当前时间，就跳过 等于的话就写入等于时间 小于的话就代表请未发生日期就假。
-			if (vTmp.longValue() < vCur.longValue()) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(tmpDate);
-				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				;
-				tmpDate = calendar.getTime();
-				continue;
-			}
-			AdcShiftMeals adcShiftMeals = new AdcShiftMeals();
-			adcShiftMeals.setMealsDate(tmpDate);
-			adcShiftMeals.setMealsTimes(Integer.valueOf(1));
-			if (vTmp.longValue() > vCur.longValue()) {
-				adcShiftMeals.setMealsType(new String("4")); // 及时请假,10点之前
-			}
-			if (vTmp.longValue() == vCur.longValue()) {
-				if (lTmp.longValue() <= Long.valueOf("103000")) {
-					adcShiftMeals.setMealsType(new String("4"));
-				} else {
-					adcShiftMeals.setMealsType(new String("5"));
-				}
-			}
-			for (Long empid : empList) {
-				adcShiftMeals.setEmpid(empid);
-				String deptidStr = this.getDeptidByEmpid(empid);
-				adcShiftMeals.setDeptid(deptidStr);
-				String roomId = getLeaveDinnerRoomIdByEmpid(empid, deptidStr);
-				adcShiftMeals.setRoomId(roomId);
-
-				AdcShiftMealsExample adcShiftMealsExample = new AdcShiftMealsExample();
-				adcShiftMealsExample.createCriteria().andDeptidEqualTo(deptidStr).andEmpidEqualTo(empid).andMealsDateEqualTo(tmpDate);
-
-				adcShiftMealsMapper.deleteByExample(adcShiftMealsExample);
-				adcShiftMealsMapper.insert(adcShiftMeals);
-
-			}
-			return 1;
-		}
-		*/
-		return 0;
-	}
-
-	/**
 	 * 转换oa_intf记录为AdcShiftLeave记录
 	 * 排除饭假处理
 	 * @throws ParseException 
@@ -370,7 +312,13 @@ public class AdcShiftLeaveService {
 				if (i > 0) {
 					record.setState(new String("2"));
 				}
-				adcShiftLeaveMapper.insert(record);
+				
+				AdcShiftLeaveExample leaExp = new AdcShiftLeaveExample();
+				leaExp.createCriteria().andDeptidEqualTo(record.getDeptid()).andAdcDateEqualTo(record.getAdcDate()).andEmpidEqualTo(record.getEmpid()).andRequestidEqualTo(record.getRequestid());
+				int count = adcShiftLeaveMapper.countByExample(leaExp);
+				if (count == 0){
+					adcShiftLeaveMapper.insert(record);
+				}
 			}
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(tmpDate);

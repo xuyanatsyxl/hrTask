@@ -22,7 +22,7 @@ public class AdcShiftSchedulingServiceImplServiceLocator extends org.apache.axis
     }
 
     // Use to get a proxy class for AdcShiftSchedulingServiceImplPort
-    private java.lang.String AdcShiftSchedulingServiceImplPort_address = "http://61.161.160.23:9092/hr/rpc/webservice/adcShiftSchedulingService";
+    private java.lang.String AdcShiftSchedulingServiceImplPort_address = "http://localhost:9092/hr/rpc/webservice/adcShiftSchedulingService";
 
     public java.lang.String getAdcShiftSchedulingServiceImplPortAddress() {
         return AdcShiftSchedulingServiceImplPort_address;
