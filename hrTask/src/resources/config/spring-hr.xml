@@ -20,8 +20,7 @@
 	</bean>
 
 	<!-- Apache Commons DBCP 数据源 -->
-	<bean id="dataSource.hr" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<bean id="dataSource.hr" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${hr.jdbc.driverClassName}" />
 		<property name="url" value="${hr.jdbc.url}" />
 		<property name="username" value="${hr.jdbc.username}" />
@@ -48,7 +47,7 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory.hr" />
 	</bean>
 
-	<bean id="sqlSession.hr" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSession.hr" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
 		<constructor-arg index="0" ref="sqlSessionFactory.hr" />
 	</bean>
 </beans>

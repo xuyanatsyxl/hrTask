@@ -143,8 +143,8 @@ public class AdcShiftMealsService {
 		int i = HrUtils.compareDateDayOfMonth(writeDateTime, startDate);		
 		if (emplEntitys.size() > 0)
 			for (Employee entity : emplEntitys){
-				Date tmpDate = null;
-				if (i <= 0){
+				Date tmpDate = startDate;
+				if (i == 0){
 					//属于起点在当天饭假的
 					tmpDate = writeDateTime;
 				}

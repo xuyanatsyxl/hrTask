@@ -152,7 +152,7 @@ public class TestService {
 	/**
 	 * 就餐数据测试
 	 */
-
+	@Test
 	public void testAdcShiftMeals() {
 		engineer.procOaMealsData();
 	}
@@ -192,7 +192,6 @@ public class TestService {
 		}
 	}
 	
-	@Test
 	public void testMealsLeave(){
 		engineer.scanHrForStaffer();
 	}

@@ -1,10 +1,14 @@
 package org.infotechdept.hr.task.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,6 +56,9 @@ public class AdcShiftUtils {
 	private SqlSessionTemplate sqlSession;
 	@Autowired
 	private EadeptMapper eadeptMapper;
+	
+	@Resource(name = "sqlSession.hr")
+	private SqlSessionTemplate sqlSessionHr;
 
     /**
      * 部门编号ID生成器(自定义)
@@ -221,6 +228,24 @@ public class AdcShiftUtils {
 		}else{
 			return null;
 		}
+	}
+	
+	/**
+	 * 从HR系统中根据单元ID生成部门全称
+	 * @param oId
+	 * @return
+	 */
+	public String genFullDeptNameByUnitIdInHR(BigDecimal oId){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		String deptName = null;
+		while (oId.intValue() != 1){
+			paramMap.put("oid", oId);
+			Map resultMap = sqlSessionHr.selectOne("HR.queryOrgUnitInfo", paramMap);
+			oId = (BigDecimal)resultMap.get("C_PARENTUNITID");
+			deptName = (String)resultMap.get("C_NAME") + "-" + deptName;
+		}
+		deptName = deptName.substring(0, deptName.length() - 5);
+		return deptName;
 	}
 	
 }

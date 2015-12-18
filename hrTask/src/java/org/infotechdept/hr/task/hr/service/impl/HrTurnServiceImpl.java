@@ -53,8 +53,8 @@ public class HrTurnServiceImpl implements HrStafferService {
 		Map resultMap = new HashMap(); 
 		BigDecimal bdEmpid = (BigDecimal) stafferMap.get("C_EMPOID");
 		Integer empid = bdEmpid.intValue();
-		String oldUnitName = (String)stafferMap.get("C_OLDUNITNAME");
-		String newUnitName = (String)stafferMap.get("C_NEWUNITNAME");
+		String oldUnitName = adcShiftUtils.genFullDeptNameByUnitIdInHR((BigDecimal)stafferMap.get("C_OLDUNITID"));
+		String newUnitName = adcShiftUtils.genFullDeptNameByUnitIdInHR((BigDecimal)stafferMap.get("C_NEWUNITID"));
 		
 		Long deptidOldStr = adcShiftUtils.getDeptidByUnitName(oldUnitName);
 		Long deptidNewStr = adcShiftUtils.getDeptidByUnitName(newUnitName);

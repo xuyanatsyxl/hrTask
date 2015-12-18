@@ -95,6 +95,7 @@ public class AdcShiftSchedulingServiceImplServiceSoapBindingStub extends org.apa
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
+        _call.setTimeout(3600000);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);

@@ -4,7 +4,7 @@
     <!-- 查询HR系统中每日变化数据 -->
 	<select id="queryTbPerStafferrcordForTrans" parameterType="HashMap" resultType="HashMap">
 		select TO_CHAR(C_RECORDTIME, 'yyyy-mm-dd') as C_RECORDTIME, C_EMPOID, C_RECORDTYPE, C_OLDEMPSTATUS, C_OLDUNITNAME, C_NEWUNITNAME, C_OLDJOBNAME, C_NEWJOBNAME,
-      		   C_OLDDYZBZW, C_NEWDYZBZW, C_REASON
+      		   C_OLDDYZBZW, C_NEWDYZBZW, C_REASON, C_NEWUNITID, C_OLDUNITID
   		  from tb_per_staffrecord 
   		 <where>
   		     <if test="date != null">
@@ -25,5 +25,19 @@
  				and C_CODE = #{code, jdbcType=VARCHAR}  		         
   		     </if>
   		 </where>   
+	</select>
+	
+	<!-- 查询HR系统中的部门信息 -->
+	<select id="queryOrgUnitInfo" parameterType="HashMap" resultType="HashMap">
+		select C_OID, C_CODE, C_PARENTUNITID, C_NAME 
+		  from TB_ORG_ORGUNIT_INFO 
+  		 <where>
+  		     <if test="oid != null">
+ 				and C_OID = #{oid, jdbcType=INTEGER}  		         
+  		     </if>
+  		     <if test="code != null">
+ 				and C_CODE = #{code, jdbcType=VARCHAR}  		         
+  		     </if>
+  		 </where> 
 	</select>
 </mapper>
